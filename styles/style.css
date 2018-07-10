@@ -1,0 +1,105 @@
+* {
+  margin : 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+#left_menu{
+  width: 20%;
+  height: 100vh;
+  float: left;
+  background-color: lightblue;
+}
+
+#board{
+  width: 55%;
+  height: 100vh;
+  position: relative;
+  float: left;
+  /* padding: 3% 5%; */
+}
+
+#right_json_view{
+  position: relative;
+  width: 25%;
+  height: 100vh;
+  float: left;
+  border-left: 1px solid black;
+}
+
+#select{
+  width:50%;
+  margin-top: 15%;
+  margin-left: 25%;
+}
+
+#hexDiv{
+  position: absolute;
+  background-image: url("../images/hex.png");
+  background-size: 110px 100px;
+  width:110px;
+  height:100px;
+  z-index: 2;
+}
+
+#arrowDiv{
+  background-image: url("../images/arrow.png");
+  background-size: 110px 100px;
+  width:110px;
+  height:100px;
+}
+
+#jsonTextarea{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width:80%;
+  height: 70%;
+  margin-top: 5%;
+  resize: none;
+}
+
+#button_generateJson{
+  position: absolute;
+  display: block;
+  width: 220px;
+  bottom: 20%;
+  right: 25%;
+}
+
+#button_applyJson{
+  position: absolute;
+  display: block;
+  width: 220px;
+  right: 25%;
+  bottom: 15%;
+}
+
+#button_typeWall, #button_typeEnemy, #button_typeTreasure, #button_typeLight{
+  width: 120px;
+  position: absolute;
+  left: 5%;
+  display: block;
+  height: 25px;
+}
+
+#button_typeWall{
+  top:15%;
+}
+
+#button_typeEnemy{
+  top:20%;
+}
+
+#button_typeTreasure{
+  top:25%;
+}
+
+#button_typeLight{
+  top:30%;
+}
+
+.down{
+  background-color: tomato;
+}
