@@ -25,6 +25,9 @@ function Main() {
   var width = $("#root")[0].clientWidth;
   var height = $("#root")[0].clientHeight;
 
+  //screensaver
+  var cubesContainers = [];
+
   //#############End Of Variables###############//
 
   function initEngine() {
@@ -75,25 +78,22 @@ function Main() {
     axes = new THREE.AxesHelper(500);
     scene.add(axes);
 
-    //
-    var cubeContainer = new THREE.Object3D();
+    //cubesContainers
 
-    cubeGeometry = new THREE.BoxGeometry(400, 200, 400);
-
-    cubeMesh = new THREE.Mesh(geometry, cubeMaterial);
-    cubeWireframeMesh = new THREE.Mesh(geometry, cubeWireframeMaterial);
-    cubeContainer.add(cubeMesh);
-    cubeContainer.add(cubeWireframeMesh);
-    //scene.add(sheet)
-
-    var cubes = [];
     for (let i = -2; i < 2; i++) {
-      var cube = cubeContainer.clone();
-      cube.position.x = i * 800;
-      cubes.push(cube);
-      scene.add(cube);
-    }
+      var cubeContainer = new THREE.Object3D();
 
+      cubeGeometry = new THREE.BoxGeometry(400, 200, 400);
+      cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
+      cubeWireframeMesh = new THREE.Mesh(cubeGeometry, cubeWireframeMaterial);
+
+      cubeContainer.add(cubeMesh);
+      cubeContainer.add(cubeWireframeMesh);
+
+      cubeContainer.position.x = i * 800;
+      cubesContainers.push(cubeContainer);
+      scene.add(cubeContainer);
+    }
 
   }
 
@@ -101,8 +101,8 @@ function Main() {
 
   function render() {
 
-    for (i = 0; i < cubes.length; i++) {
-      cubes[i].rotateY(Math.PI / 360);
+    for (let i = 0; i < cubesContainers.length; i++) {
+      cubesContainers[i].rotateY(Math.PI / 360);
     }
 
     requestAnimationFrame(render);
