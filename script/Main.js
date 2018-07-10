@@ -1,30 +1,33 @@
 function Main() {
 
+  $(window).on("resize", function () {
+
+    var width = $("#root")[0].clientWidth;
+    var height = $("#root")[0].clientHeight;
+
+    renderer.setSize(width, height);
+  })
+
   //################Variables###################//
 
   //engine
-  var stats;
   var scene, camera, orbitControl, renderer;
 
   //materials
-  var fireParticleMeshMaterial, fireParticleSpriteMaterial;
+  var cubeMaterial, cubeWireframeMaterial;
 
   //objects
   var axes; //na razie
-  var fires = [];
+
+  var cubeGeometry, cubeMesh, cubeWireframeMesh;
 
   //others
-  var width = window.innerWidth;
-  var height = window.innerHeight;
+  var width = $("#root")[0].clientWidth;
+  var height = $("#root")[0].clientHeight;
 
   //#############End Of Variables###############//
 
   function initEngine() {
-
-    //stats
-    stats = new Stats();
-    stats.showPanel(0);
-    document.body.appendChild(stats.dom);
 
     //scene
     scene = new THREE.Scene();
@@ -32,11 +35,11 @@ function Main() {
     //camera
     camera = new THREE.PerspectiveCamera(
       45,
-      width/height,
+      width / height,
       0.1,
       10000
     );
-    camera.position.set(400, 100, 400);
+    camera.position.set(0, 400, 400);
     camera.lookAt(scene.position);
     camera.fov = 45;
     camera.updateProjectionMatrix();
@@ -50,79 +53,61 @@ function Main() {
 
     //orbitControl
     orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function() {
+    orbitControl.addEventListener('change', function () {
       renderer.render(scene, camera);
     });
 
   }
 
+  initEngine();
+
   function initMaterials() {
+    cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-    //fireParticleMeshMaterial
-    fireParticleMeshMaterial = new THREE.MeshBasicMaterial({
-      color: 0xff6600,
-      transparent: true,
-      opacity: 0.5,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending // kluczowy element zapewniający mieszanie kolorów poszczególnych cząsteczek
-    });
-
-    fireParticleSpriteMaterial = new THREE.SpriteMaterial({
-      size: 10, // wielkość cząsteczki
-      color: 0xff3300,
-      //map: THREE.ImageUtils.loadTexture("mats/fire.png"),
-      transparent: true,
-      opacity: 0.8,
-      depthWrite: false,
-      blending: THREE.AdditiveBlending
-    });
-
+    cubeWireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
   }
+
+  initMaterials();
 
   function initObjects() {
 
     //axes
-    // axes = new THREE.AxesHelper(1000);
-    // scene.add(axes);
+    axes = new THREE.AxesHelper(500);
+    scene.add(axes);
 
-    //fires
-    for (var i = 0; i < 4; i++) {
-      for (var j = 0; j < 4; j++) {
-        for (var k = 0; k < 2; k++) {
+    //
+    var cubeContainer = new THREE.Object3D();
 
-          var fire = new Fire(fireParticleMeshMaterial);
-          var fireCont = fire.getFireCont();
-          scene.add(fireCont);
-          fires.push(fire);
+    cubeGeometry = new THREE.BoxGeometry(400, 200, 400);
 
-          fireCont.position.x = i * 150 - (4 * 20) / 2.5;
-          fireCont.position.z = j * 150 - (4 * 20) / 2.5;
-          fireCont.position.y = k * 150 - (4 * 20) / 2.5;
+    cubeMesh = new THREE.Mesh(geometry, cubeMaterial);
+    cubeWireframeMesh = new THREE.Mesh(geometry, cubeWireframeMaterial);
+    cubeContainer.add(cubeMesh);
+    cubeContainer.add(cubeWireframeMesh);
+    //scene.add(sheet)
 
-        }
-      }
+    var cubes = [];
+    for (let i = -2; i < 2; i++) {
+      var cube = cubeContainer.clone();
+      cube.position.x = i * 800;
+      cubes.push(cube);
+      scene.add(cube);
     }
 
 
   }
 
-  initEngine();
-  initMaterials();
   initObjects();
 
   function render() {
-    stats.begin();
 
-    for (let fire of fires) {
-      fire.updateFire();
+    for (i = 0; i < cubes.length; i++) {
+      cubes[i].rotateY(Math.PI / 360);
     }
-
-    camera.lookAt(scene.position);
 
     requestAnimationFrame(render);
     renderer.render(scene, camera);
 
-    stats.end();
   }
 
   render();
