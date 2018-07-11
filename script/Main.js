@@ -14,7 +14,7 @@ function Main() {
   var scene, camera, orbitControl, renderer;
 
   //materials
-  var cubeMaterial, cubeWireframeMaterial;
+  var cubeMaterial, cubeWireframeMaterial, cubeTexture;
 
   //objects
   var axes; //na razie
@@ -66,6 +66,14 @@ function Main() {
 
   function initMaterials() {
     cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+
+    var loader = new THREE.TextureLoader();
+    loader.load('texture.png', function (texture) {
+      var geometry = new THREE.SphereGeometry(1000, 20, 20);
+      var material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
+      var mesh = new THREE.Mesh(geometry, material);
+      scene.add(mesh);
+    });
 
     cubeWireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
   }
