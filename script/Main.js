@@ -8,12 +8,15 @@ function Main() {
   //materials
   var groundGeometryMaterial;
   var iLabMaterial, plusMaterial;
+  var dotGeometryMaterial;
 
   //objects
   var axes; //na razie
   var groundMesh;
   var logotype, logotypeContainer;
   var light;
+
+  var dotsArray = [];
 
   //others
   // var width = $("#root")[0].clientWidth;
@@ -90,6 +93,12 @@ function Main() {
       side: THREE.DoubleSide,
     });
 
+    //dotGeometryMaterial
+    dotGeometryMaterial = new THREE.MeshPhongMaterial({
+      side: THREE.DoubleSide,
+      color: 0xf58220,
+    });
+
   }
 
   initMaterials();
@@ -111,6 +120,12 @@ function Main() {
     logotype.loadModel('fonts/ReFormation Sans Regular_Regular.json', (data) => {
       logotypeContainer = data;
       logotypeContainer.position.set(-100, 200, 0);
+
+      var box = new THREE.Box3().setFromObject(logotypeContainer);
+      logotypeContainer.position.y = box.getSize().y / 2;
+      logotypeContainer.position.x = -box.getSize().x / 2;
+      logotypeContainer.position.z = -box.getSize().z / 2;
+
       scene.add(logotypeContainer);
     });
 
@@ -121,6 +136,19 @@ function Main() {
     light.lookAt(scene.position);
     scene.add(light);
 
+    //dots
+    for (var i = 0; i < 50; i++) {
+      var dot = new Dot(dotGeometryMaterial);
+      var dotMesh = dot.getDot();
+
+      dotMesh.position.x = i * 10;
+      dotMesh.position.y = 50;
+      dotMesh.position.z = 50;
+
+      dotsArray.push(dot);
+      scene.add(dotMesh);
+    }
+
   }
 
   initObjects();
@@ -130,6 +158,11 @@ function Main() {
 
     renderer.shadowMap.enabled = true;
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+    for (let dot of dotsArray) {
+      //do sth
+      //dot.setPosition...
+    }
 
     requestAnimationFrame(render);
     renderer.render(scene, camera);
