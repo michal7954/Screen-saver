@@ -19,7 +19,7 @@ function Main() {
   //objects
   var axes; //na razie
 
-  var cubeGeometry, cubeMesh, cubeWireframeMesh;
+  var cubeGeometry, cubeMesh, cubeWireframeMesh, cubeTexture;
 
   //others
   var width = $("#root")[0].clientWidth;
@@ -66,16 +66,28 @@ function Main() {
 
   function initMaterials() {
     cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    cubeWireframeMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
 
     var loader = new THREE.TextureLoader();
     loader.load('texture.png', function (texture) {
-      var geometry = new THREE.SphereGeometry(1000, 20, 20);
-      var material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
-      var mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
+      cubeTexture = new THREE.MeshBasicMaterial({ map: texture });
+
+      var cubeContainer = new THREE.Object3D();
+      cubeGeometry = new THREE.BoxGeometry(372, 197, 372);
+
+      cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
+      cubeTexturedMesh = new THREE.Mesh(cubeGeometry, cubeTexture);
+      cubeWireframeMesh = new THREE.Mesh(cubeGeometry, cubeWireframeMaterial);
+
+      //cubeContainer.add(cubeMesh);
+      cubeContainer.add(cubeTexturedMesh);
+      cubeContainer.add(cubeWireframeMesh);
+
+      cubesContainers.push(cubeContainer);
+      scene.add(cubeContainer);
+
     });
 
-    cubeWireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
   }
 
   initMaterials();
@@ -88,20 +100,7 @@ function Main() {
 
     //cubesContainers
 
-    for (let i = -2; i < 2; i++) {
-      var cubeContainer = new THREE.Object3D();
 
-      cubeGeometry = new THREE.BoxGeometry(400, 200, 400);
-      cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
-      cubeWireframeMesh = new THREE.Mesh(cubeGeometry, cubeWireframeMaterial);
-
-      cubeContainer.add(cubeMesh);
-      cubeContainer.add(cubeWireframeMesh);
-
-      cubeContainer.position.x = i * 800;
-      cubesContainers.push(cubeContainer);
-      scene.add(cubeContainer);
-    }
 
   }
 
