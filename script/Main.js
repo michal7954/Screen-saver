@@ -108,7 +108,7 @@ function Main() {
 
     //logotypeContainer
     logotype = new Logotype(iLabMaterial, plusMaterial);
-    logotype.loadModel('fonts/helvetiker_bold.typeface.json', (data) => {
+    logotype.loadModel('fonts/ReFormation Sans Regular_Regular.json', (data) => {
       logotypeContainer = data;
       logotypeContainer.position.set(-100, 200, 0);
       scene.add(logotypeContainer);
