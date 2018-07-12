@@ -24,6 +24,7 @@ function Main() {
 
   var width = window.innerWidth;
   var height = window.innerHeight;
+  var center = { x: 9.279999732971191, y: 165.5, z: -10 }
 
   //screensaver
   //
@@ -53,7 +54,7 @@ function Main() {
     renderer.setSize(width, height);
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
 
@@ -62,7 +63,7 @@ function Main() {
 
     //orbitControl
     orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function() {
+    orbitControl.addEventListener('change', function () {
       renderer.render(scene, camera);
     });
 
@@ -141,9 +142,9 @@ function Main() {
       var dot = new Dot(dotGeometryMaterial);
       var dotMesh = dot.getDot();
 
-      dotMesh.position.x = i * 10;
-      dotMesh.position.y = 50;
-      dotMesh.position.z = 50;
+      dotMesh.position.x = center.x + i * 10;
+      dotMesh.position.y = center.y;
+      dotMesh.position.z = center.z + 10;
 
       dotsArray.push(dot);
       scene.add(dotMesh);
