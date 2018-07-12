@@ -1,32 +1,29 @@
 function Main() {
 
-  $(window).on("resize", function () {
-
-    var width = $("#root")[0].clientWidth;
-    var height = $("#root")[0].clientHeight;
-
-    renderer.setSize(width, height);
-  })
-
   //################Variables###################//
 
   //engine
-  var scene, camera, orbitControl, renderer;
+  var scene, camera, renderer, orbitControl;
 
   //materials
-  var cubeMaterial, cubeWireframeMaterial, cubeTexture;
+  var groundGeometryMaterial;
+  var iLabMaterial, plusMaterial;
 
   //objects
   var axes; //na razie
-
-  var cubeGeometry, cubeMesh, cubeWireframeMesh;
+  var groundMesh;
+  var logotype, logotypeContainer;
+  var light;
 
   //others
-  var width = $("#root")[0].clientWidth;
-  var height = $("#root")[0].clientHeight;
+  // var width = $("#root")[0].clientWidth;
+  // var height = $("#root")[0].clientHeight;
+
+  var width = window.innerWidth;
+  var height = window.innerHeight;
 
   //screensaver
-  var cubesContainers = [];
+  //
 
   //#############End Of Variables###############//
 
@@ -42,7 +39,7 @@ function Main() {
       0.1,
       10000
     );
-    camera.position.set(0, 400, 400);
+    camera.position.set(500, 500, 500);
     camera.lookAt(scene.position);
     camera.fov = 45;
     camera.updateProjectionMatrix();
@@ -51,12 +48,18 @@ function Main() {
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0x000000);
     renderer.setSize(width, height);
-    renderer
     $("#root").append(renderer.domElement);
+
+    $(window).on("resize", function() {
+      var width = $("#root")[0].clientWidth;
+      var height = $("#root")[0].clientHeight;
+
+      renderer.setSize(width, height);
+    });
 
     //orbitControl
     orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function () {
+    orbitControl.addEventListener('change', function() {
       renderer.render(scene, camera);
     });
 
@@ -65,17 +68,28 @@ function Main() {
   initEngine();
 
   function initMaterials() {
-    cubeMaterial = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
 
-    var loader = new THREE.TextureLoader();
-    loader.load('texture.png', function (texture) {
-      var geometry = new THREE.SphereGeometry(1000, 20, 20);
-      var material = new THREE.MeshBasicMaterial({ map: texture, overdraw: 0.5 });
-      var mesh = new THREE.Mesh(geometry, material);
-      scene.add(mesh);
+    //groundGeometryMaterial
+    groundGeometryMaterial = new THREE.MeshPhongMaterial({
+      specular: 0xffffff,
+      shininess: 20,
+      side: THREE.DoubleSide,
     });
 
-    cubeWireframeMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
+    //iLabMaterial
+    iLabMaterial = new THREE.MeshPhongMaterial({
+      color: 0x808285,
+      shininess: 50,
+      side: THREE.DoubleSide,
+    });
+
+    //plusMaterial
+    plusMaterial = new THREE.MeshPhongMaterial({
+      color: 0xf58220,
+      shininess: 50,
+      side: THREE.DoubleSide,
+    });
+
   }
 
   initMaterials();
@@ -83,35 +97,39 @@ function Main() {
   function initObjects() {
 
     //axes
-    axes = new THREE.AxesHelper(500);
+    axes = new THREE.AxesHelper(1500);
     scene.add(axes);
 
-    //cubesContainers
+    //groundMesh
+    var geometry = new THREE.PlaneGeometry(1000, 1000, 50, 50);
+    groundMesh = new THREE.Mesh(geometry, groundGeometryMaterial);
+    groundMesh.receiveShadow = true;
+    scene.add(groundMesh);
 
-    for (let i = -2; i < 2; i++) {
-      var cubeContainer = new THREE.Object3D();
+    //logotypeContainer
+    logotype = new Logotype(iLabMaterial, plusMaterial);
+    logotype.loadModel('fonts/helvetiker_bold.typeface.json', (data) => {
+      logotypeContainer = data;
+      logotypeContainer.position.set(-100, 200, 0);
+      scene.add(logotypeContainer);
+    });
 
-      cubeGeometry = new THREE.BoxGeometry(400, 200, 400);
-      cubeMesh = new THREE.Mesh(cubeGeometry, cubeMaterial);
-      cubeWireframeMesh = new THREE.Mesh(cubeGeometry, cubeWireframeMaterial);
-
-      cubeContainer.add(cubeMesh);
-      cubeContainer.add(cubeWireframeMesh);
-
-      cubeContainer.position.x = i * 800;
-      cubesContainers.push(cubeContainer);
-      scene.add(cubeContainer);
-    }
+    //light
+    light = new THREE.PointLight(0xffffff, 10, 500, 3.14);
+    light.castShadow = true;
+    light.position.set(0, 350, 100);
+    light.lookAt(scene.position);
+    scene.add(light);
 
   }
 
   initObjects();
 
   function render() {
+    groundMesh.rotation.x = Math.PI / 2;
 
-    for (let i = 0; i < cubesContainers.length; i++) {
-      cubesContainers[i].rotateY(Math.PI / 360);
-    }
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
     requestAnimationFrame(render);
     renderer.render(scene, camera);
