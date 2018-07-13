@@ -13,7 +13,7 @@ function Main() {
   //objects
   var axes; //na razie
   var groundMesh;
-  var logotype, logotypeContainer;
+  var logotype, logotypeContainer, parent = new THREE.Object3D();
   var light;
 
   var dotsArray = [];
@@ -52,6 +52,8 @@ function Main() {
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0x000000);
     renderer.setSize(width, height);
+    renderer.shadowMap.enabled = true;
+    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
     $(window).on("resize", function () {
@@ -98,6 +100,7 @@ function Main() {
     dotGeometryMaterial = new THREE.MeshPhongMaterial({
       side: THREE.DoubleSide,
       color: 0xf58220,
+      shininess: 1000
     });
 
   }
@@ -107,13 +110,14 @@ function Main() {
   function initObjects() {
 
     //axes
-    axes = new THREE.AxesHelper(1500);
-    scene.add(axes);
+    //axes = new THREE.AxesHelper(1500);
+    //scene.add(axes);
 
     //groundMesh
     var geometry = new THREE.PlaneGeometry(1000, 1000, 50, 50);
     groundMesh = new THREE.Mesh(geometry, groundGeometryMaterial);
     groundMesh.receiveShadow = true;
+    groundMesh.rotation.x = Math.PI / 2;
     scene.add(groundMesh);
 
     //logotypeContainer
@@ -127,7 +131,8 @@ function Main() {
       logotypeContainer.position.x = -box.getSize().x / 2;
       logotypeContainer.position.z = -box.getSize().z / 2;
 
-      scene.add(logotypeContainer);
+      scene.add(parent)
+      parent.add(logotypeContainer)
     });
 
     //light
@@ -138,40 +143,56 @@ function Main() {
     scene.add(light);
 
     //dots
-    for (var i = 0; i < 50; i++) {
-      var dot = new Dot(dotGeometryMaterial);
-      var dotMesh = dot.getDot();
 
-      dotMesh.position.x = center.x + i * 10;
-      dotMesh.position.y = center.y;
-      dotMesh.position.z = center.z + 10;
+    var dot = new Dot(dotGeometryMaterial, 'x');
+    dotsArray.push(dot);
+    scene.add(dot.getDot());
 
-      dotsArray.push(dot);
-      scene.add(dotMesh);
-    }
+    var dot = new Dot(dotGeometryMaterial, 'y');
+    dotsArray.push(dot);
+    scene.add(dot.getDot());
 
+    var dot = new Dot(dotGeometryMaterial, 'z');
+    dotsArray.push(dot);
+    scene.add(dot.getDot());
+
+    //orbits
+    var radius = 320,
+      segments = 64,
+      material = new THREE.LineBasicMaterial({ color: 0xff00ff }),
+      geometry = new THREE.CircleGeometry(radius, segments);
+
+    geometry.vertices.shift();
+    var circle = new THREE.LineLoop(geometry, material)
+    circle.position.x = center.x
+    circle.position.y = center.y
+    circle.position.z = center.z
+    circle.position
+    scene.add(circle)
+
+    var circle2 = circle.clone()
+    circle2.rotateX(Math.PI / 2)
+    scene.add(circle2)
+
+    var circle3 = circle.clone()
+    circle3.rotateY(Math.PI / 2)
+    scene.add(circle3)
   }
 
   initObjects();
 
   function render() {
-    groundMesh.rotation.x = Math.PI / 2;
-
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-
     for (let dot of dotsArray) {
-      //do sth
-      //dot.setPosition...
+      dot.rotate();
     }
+
+    if (parent)
+      parent.rotateY(0.004)
 
     requestAnimationFrame(render);
     renderer.render(scene, camera);
-
   }
-
   render();
-
 }
 
 var main = new Main();
