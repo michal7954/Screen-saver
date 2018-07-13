@@ -13,7 +13,7 @@ function Main() {
   //objects
   var axes; //na razie
   var groundMesh;
-  var logotype, logotypeContainer;
+  var logotype, logotypeContainer, parent = new THREE.Object3D();
   var light;
 
   var dotsArray = [];
@@ -21,6 +21,7 @@ function Main() {
   //others
   var width = window.innerWidth;
   var height = window.innerHeight;
+  var center = { x: 9.279999732971191, y: 165.5, z: -10 }
 
   //screensaver
   var logotypeRotationAngle = 0;
@@ -44,6 +45,7 @@ function Main() {
     camera.fov = 45;
     camera.updateProjectionMatrix();
 
+
     //renderer
     renderer = new THREE.WebGLRenderer();
     renderer.setClearColor(0x000000);
@@ -52,15 +54,17 @@ function Main() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
       renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
     });
 
     //orbitControl
     orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function() {
+    orbitControl.addEventListener('change', function () {
       renderer.render(scene, camera);
     });
 
@@ -95,6 +99,7 @@ function Main() {
     dotGeometryMaterial_1 = new THREE.MeshPhongMaterial({
       side: THREE.DoubleSide,
       color: 0xf58220,
+      //shininess: 1000
     });
 
     dotGeometryMaterial_2 = new THREE.MeshPhongMaterial({
@@ -129,12 +134,17 @@ function Main() {
       logotypeContainer.position.x = -box.getSize().x / 2;
       logotypeContainer.position.z = -box.getSize().z / 2;
 
-      scene.add(logotypeContainer);
+      scene.add(parent)
+      parent.add(logotypeContainer)
     });
 
     //light
     light = new THREE.SpotLight(0xffffcc, 1, 1400, 3.14);
     light.castShadow = true;
+    // light = new THREE.SpotLight(0xffffff, 5, 500, 3.14);
+    // light.castShadow = true;
+    // light.position.set(0, 300, 100);
+    // light.lookAt(center);
     scene.add(light);
 
     var lightPositions = [
@@ -162,6 +172,33 @@ function Main() {
       scene.add(dotContainer);
     }
 
+    // for (let i = 0; i < 100; i++) {
+    //   var dot = new Dot(dotGeometryMaterial);
+    //   dotsArray.push(dot);
+    //   scene.add(dotContainer);
+    // }
+
+    //orbits
+    // var radius = 320,
+    //   segments = 64,
+    //   material = new THREE.LineBasicMaterial({ color: 0xff00ff }),
+    //   geometry = new THREE.CircleGeometry(radius, segments);
+
+    // geometry.vertices.shift();
+    // var circle = new THREE.LineLoop(geometry, material)
+    // circle.position.x = center.x
+    // circle.position.y = center.y;
+    // circle.position.z = center.z
+    // circle.position
+    // //scene.add(circle)
+
+    // var circle2 = circle.clone()
+    // circle2.rotateX(Math.PI / 2)
+    // //scene.add(circle2)
+
+    // var circle3 = circle.clone()
+    // circle3.rotateY(Math.PI / 2)
+    //scene.add(circle3)
   }
 
   initObjects();
@@ -187,13 +224,11 @@ function Main() {
       }
     }
 
+
     requestAnimationFrame(render);
     renderer.render(scene, camera);
-
   }
-
   render();
-
 }
 
 var main = new Main();
