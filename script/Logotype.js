@@ -2,13 +2,6 @@ function Logotype(iLabMaterial, plusMaterial) {
 
   var container = new THREE.Object3D();
   var loader;
-  //var light;
-
-  //light
-  // light = new THREE.PointLight(0x331f00, 5, 300, 3.14);
-  // light.position.set(0, 100, 0);
-  // light.lookAt(container.position);
-  // container.add(light);
 
   this.loadModel = (url, callback) => {
 
@@ -21,9 +14,8 @@ function Logotype(iLabMaterial, plusMaterial) {
       var geometryILab = new THREE.TextGeometry('iLab', {
         font: font,
         size: 180,
-        height: 5,
-        curveSegments: 12,
-        bevelEnabled: true,
+        height: 30,
+        curveSegments: 10,
         bevelThickness: 10,
         bevelSize: 8,
         bevelSegments: 5
@@ -33,12 +25,11 @@ function Logotype(iLabMaterial, plusMaterial) {
       meshILab.castShadow = true;
 
       //PLUS
-      var geometryPlus = new THREE.TextGeometry('   PLUS', {
+      var geometryPlus = new THREE.TextGeometry('  PLUS', {
         font: font,
         size: 100,
-        height: 5,
-        curveSegments: 12,
-        bevelEnabled: true,
+        height: 30,
+        curveSegments: 10,
         bevelThickness: 10,
         bevelSize: 8,
         bevelSegments: 5
@@ -57,8 +48,8 @@ function Logotype(iLabMaterial, plusMaterial) {
 
   };
 
-  // this.getModelMesh = function() {
-  //   return meshModel;
-  // };
+  this.getContainer = function() {
+    return container;
+  };
 
 }
