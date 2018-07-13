@@ -44,9 +44,10 @@ function Main() {
       10000
     );
     camera.position.set(500, 500, 500);
-    camera.lookAt(scene.position);
+    camera.lookAt(center);
     camera.fov = 45;
     camera.updateProjectionMatrix();
+
 
     //renderer
     renderer = new THREE.WebGLRenderer();
@@ -61,6 +62,8 @@ function Main() {
       var height = $("#root")[0].clientHeight;
 
       renderer.setSize(width, height);
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
     });
 
     //orbitControl
@@ -97,12 +100,11 @@ function Main() {
     });
 
     //dotGeometryMaterial
-    dotGeometryMaterial = new THREE.MeshPhongMaterial({
+    dotGeometryMaterial = new THREE.MeshBasicMaterial({
       side: THREE.DoubleSide,
       color: 0xf58220,
-      shininess: 1000
+      //shininess: 1000
     });
-
   }
 
   initMaterials();
@@ -110,7 +112,7 @@ function Main() {
   function initObjects() {
 
     //axes
-    //axes = new THREE.AxesHelper(1500);
+    axes = new THREE.AxesHelper(1500);
     //scene.add(axes);
 
     //groundMesh
@@ -118,7 +120,8 @@ function Main() {
     groundMesh = new THREE.Mesh(geometry, groundGeometryMaterial);
     groundMesh.receiveShadow = true;
     groundMesh.rotation.x = Math.PI / 2;
-    scene.add(groundMesh);
+    groundMesh.position.y -= 153.5;
+    //scene.add(groundMesh);
 
     //logotypeContainer
     logotype = new Logotype(iLabMaterial, plusMaterial);
@@ -136,24 +139,21 @@ function Main() {
     });
 
     //light
-    light = new THREE.PointLight(0xffffff, 10, 500, 3.14);
+    light = new THREE.SpotLight(0xffffff, 5, 500, 3.14);
     light.castShadow = true;
-    light.position.set(0, 350, 100);
-    light.lookAt(scene.position);
+    light.position.set(0, 300, 100);
+    light.lookAt(center);
     scene.add(light);
 
     //dots
 
-    var dot = new Dot(dotGeometryMaterial, 'x');
-    dotsArray.push(dot);
-    scene.add(dot.getDot());
+    for (let i = 0; i < 100; i++) {
+      var dot = new Dot(dotGeometryMaterial);
+      dotsArray.push(dot);
+      scene.add(dot.getDot());
+    }
 
-    var dot = new Dot(dotGeometryMaterial, 'y');
-    dotsArray.push(dot);
-    scene.add(dot.getDot());
 
-    var dot = new Dot(dotGeometryMaterial, 'z');
-    dotsArray.push(dot);
     scene.add(dot.getDot());
 
     //orbits
@@ -165,18 +165,18 @@ function Main() {
     geometry.vertices.shift();
     var circle = new THREE.LineLoop(geometry, material)
     circle.position.x = center.x
-    circle.position.y = center.y
+    circle.position.y = center.y;
     circle.position.z = center.z
     circle.position
-    scene.add(circle)
+    //scene.add(circle)
 
     var circle2 = circle.clone()
     circle2.rotateX(Math.PI / 2)
-    scene.add(circle2)
+    //scene.add(circle2)
 
     var circle3 = circle.clone()
     circle3.rotateY(Math.PI / 2)
-    scene.add(circle3)
+    //scene.add(circle3)
   }
 
   initObjects();
@@ -186,8 +186,6 @@ function Main() {
       dot.rotate();
     }
 
-    if (parent)
-      parent.rotateY(0.004)
 
     requestAnimationFrame(render);
     renderer.render(scene, camera);
