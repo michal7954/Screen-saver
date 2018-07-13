@@ -196,14 +196,4 @@ function Main() {
 
 }
 
-var animationName = "randomMove";
-var switchAnimationButton = $('<button>');
-$(switchAnimationButton).attr('id', 'switchAnimationButton').text("Switch animation");
-$("#control").append(switchAnimationButton);
-
-$("#switchAnimationButton").on("click", function() {
-  if (animationName === "randomMove") animationName = "eliptycalMove";
-  else animationName = "randomMove";
-});
-
 var main = new Main();
