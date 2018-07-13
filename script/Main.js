@@ -177,8 +177,14 @@ function Main() {
     camera.lookAt(scene.position);
     logotypeRotationAngle += 0.01;
 
-    for (let dot of dotsArray) {
-      dot.setPositionToRandomMove();
+    if (animationName === "randomMove") {
+      for (let dot of dotsArray) {
+        dot.setPositionToRandomMove();
+      }
+    } else if (animationName === "eliptycalMove") {
+      for (let dot of dotsArray) {
+        dot.rotate();
+      }
     }
 
     requestAnimationFrame(render);
@@ -189,5 +195,15 @@ function Main() {
   render();
 
 }
+
+var animationName = "randomMove";
+var switchAnimationButton = $('<button>');
+$(switchAnimationButton).attr('id', 'switchAnimationButton').text("Switch animation");
+$("#control").append(switchAnimationButton);
+
+$("#switchAnimationButton").on("click", function() {
+  if (animationName === "randomMove") animationName = "eliptycalMove";
+  else animationName = "randomMove";
+});
 
 var main = new Main();
