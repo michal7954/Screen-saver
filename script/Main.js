@@ -13,15 +13,23 @@ function Main() {
   //objects
   var axes; //na razie
   var groundMesh;
-  var logotype, logotypeContainer, parent = new THREE.Object3D();
+  var logotype, logotypeContainer;
   var light;
+  //var parent = new THREE.Object3D();
 
   var dotsArray = [];
 
   //others
   var width = window.innerWidth;
   var height = window.innerHeight;
-  var center = { x: 9.279999732971191, y: 165.5, z: -10 }
+  console.log("window inner W&H", width, height); //?
+
+  // var center = {
+  //   x: 9.279999732971191,
+  //   y: 165.5,
+  //   z: -10
+  // };
+  //get it from ilab...
 
   //screensaver
   var logotypeRotationAngle = 0;
@@ -40,11 +48,10 @@ function Main() {
       0.1,
       10000
     );
-    camera.position.set(700, 550, 800);
+    camera.position.set(400, 450, 700); //if animationName === ...
     camera.lookAt(scene.position);
-    camera.fov = 45;
+    camera.fov = 45; //ckeck
     camera.updateProjectionMatrix();
-
 
     //renderer
     renderer = new THREE.WebGLRenderer();
@@ -54,7 +61,7 @@ function Main() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function () {
+    $(window).on("resize", function() {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
       renderer.setSize(width, height);
@@ -64,7 +71,7 @@ function Main() {
 
     //orbitControl
     orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function () {
+    orbitControl.addEventListener('change', function() {
       renderer.render(scene, camera);
     });
 
@@ -117,7 +124,7 @@ function Main() {
     // axes = new THREE.AxesHelper(1500);
     // scene.add(axes);
 
-    //groundMesh
+    //groundMesh   //with freefall?
     // var geometry = new THREE.PlaneGeometry(4000, 4000, 50, 50);
     // groundMesh = new THREE.Mesh(geometry, groundGeometryMaterial);
     // groundMesh.receiveShadow = true;
@@ -127,36 +134,34 @@ function Main() {
     logotype = new Logotype(iLabMaterial, plusMaterial);
     logotype.loadModel('fonts/ReFormation Sans Regular_Regular.json', (data) => {
       logotypeContainer = data;
-      logotypeContainer.position.set(-100, 200, 0);
 
       var box = new THREE.Box3().setFromObject(logotypeContainer);
-      logotypeContainer.position.y = box.getSize().y / 2;
+      console.log(box.min);
+
       logotypeContainer.position.x = -box.getSize().x / 2;
       logotypeContainer.position.z = -box.getSize().z / 2;
 
-      scene.add(parent)
-      parent.add(logotypeContainer)
+      scene.add(logotypeContainer);
+      //parent.add(logotypeContainer);
     });
 
-    //light
-    light = new THREE.SpotLight(0xffffcc, 1, 1400, 3.14);
+    //lights
+    light = new THREE.SpotLight(0xffffcc, 2, 2000, 3.14);
     light.castShadow = true;
-    // light = new THREE.SpotLight(0xffffff, 5, 500, 3.14);
-    // light.castShadow = true;
-    // light.position.set(0, 300, 100);
-    // light.lookAt(center);
     scene.add(light);
 
     var lightPositions = [
-      [-500, 500, -500],
-      [500, 500, 500]
+      [-1000, 1000, -1000],
+      [1000, 1000, 1000],
+      [1000, -1000, 1000],
+      [-1000, -1000, 1000],
     ];
 
     for (let lightPos of lightPositions) {
-      let light = new THREE.SpotLight(0xffffcc, 3, 1200, 3.14 / 8);
+      let light = new THREE.SpotLight(0xffffcc, 3, 1500, 3.14 / 8);
       light.castShadow = true;
       light.position.set(lightPos[0], lightPos[1], lightPos[2]);
-      light.lookAt(logotype.getContainer().position);
+      light.lookAt(scene.position);
       scene.add(light);
     }
 
@@ -172,13 +177,7 @@ function Main() {
       scene.add(dotContainer);
     }
 
-    // for (let i = 0; i < 100; i++) {
-    //   var dot = new Dot(dotGeometryMaterial);
-    //   dotsArray.push(dot);
-    //   scene.add(dotContainer);
-    // }
-
-    //orbits
+    //orbits --> not as useful
     // var radius = 320,
     //   segments = 64,
     //   material = new THREE.LineBasicMaterial({ color: 0xff00ff }),
@@ -186,10 +185,9 @@ function Main() {
 
     // geometry.vertices.shift();
     // var circle = new THREE.LineLoop(geometry, material)
-    // circle.position.x = center.x
-    // circle.position.y = center.y;
-    // circle.position.z = center.z
-    // circle.position
+    // circle.position.x = 0;
+    // circle.position.y = 0;
+    // circle.position.z = 0;    // circle.position
     // //scene.add(circle)
 
     // var circle2 = circle.clone()
@@ -209,18 +207,23 @@ function Main() {
     light.position.set(camera.position.x, camera.position.y, camera.position.z);
     light.lookAt(scene.position);
 
-    camera.position.x = Math.sin(logotypeRotationAngle) * 600;
-    camera.position.z = Math.cos(logotypeRotationAngle) * 600;
+    camera.position.x = Math.sin(logotypeRotationAngle) * 700; //if animationName === ...
+    camera.position.z = Math.cos(logotypeRotationAngle) * 700;
     camera.lookAt(scene.position);
-    logotypeRotationAngle += 0.01;
+    logotypeRotationAngle += 0.005;
 
+    //console.log(animationName);
     if (animationName === "randomMove") {
       for (let dot of dotsArray) {
         dot.setPositionToRandomMove();
       }
     } else if (animationName === "eliptycalMove") {
       for (let dot of dotsArray) {
-        dot.rotate();
+        //dot.rotate();
+      }
+    } else if (animationName === "freeFallMove") {
+      for (let dot of dotsArray) {
+        dot.setPositionToFreeFall();
       }
     }
 
