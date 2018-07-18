@@ -49,6 +49,10 @@ body{
   font-size: 110%;
 }
 
+#inputRange_logotypeRotationAngle{
+  padding: 5%;
+}
+
 #root{
   position: absolute;
   float: left;
