@@ -60,7 +60,7 @@ function Screensaver() {
   //################Variables###################//
 
   //engine
-  var scene, camera, renderer, orbitControl;
+  var scene, camera, renderer, orbitControl, stats;
 
   //materials
   var iLabMaterial, plusMaterial;
@@ -123,7 +123,7 @@ function Screensaver() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
       renderer.setSize(width, height);
@@ -133,10 +133,14 @@ function Screensaver() {
 
     //orbitControl
     orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function() {
+    orbitControl.addEventListener('change', function () {
       renderer.render(scene, camera);
     });
 
+    //stats -fps
+    stats = new Stats()
+    stats.showPanel(0)
+    $('#control').append(stats.dom)
   }
 
   initEngine();
@@ -251,6 +255,7 @@ function Screensaver() {
   initObjects();
 
   function render() {
+    stats.begin();
 
     light.position.set(camera.position.x, camera.position.y, camera.position.z);
     light.lookAt(scene.position);
@@ -276,6 +281,7 @@ function Screensaver() {
       }
     }
 
+    stats.end();
     requestAnimationFrame(render);
     renderer.render(scene, camera);
   }
