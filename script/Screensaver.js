@@ -6,14 +6,18 @@ function Screensaver() {
     logotypeRotationAngle = angle;
   };
 
+  this.setCameraScalar = (scalar) => {
+    cameraScalar = scalar;
+  };
+
   this.setMirror = () => {
     if (!groundMirror) {
       var geometry = new THREE.PlaneBufferGeometry(4000, 4000);
       groundMirror = new THREE.Reflector(geometry, {
         clipBias: 0.003,
-        textureWidth: 1200,
-        textureHeight: 1200,
-        //color: 0x595959,
+        textureWidth: 3000,
+        textureHeight: 3000,
+        //color: 0x000000,
         recursion: 1
       });
       groundMirror.position.y = -200;
@@ -87,8 +91,10 @@ function Screensaver() {
 
   //screensaver
   var currentAnimation = null;
+
   var logotypeRotationAngle = 0.005;
   var currentLogotypeRotationAngle = 0;
+  var cameraScalar = 1000;
 
   //#############End of variables###############//
 
@@ -194,8 +200,8 @@ function Screensaver() {
     scene.add(new THREE.AmbientLight(0x404040)); //!!!
 
     var lightPositions = [
-      [-1000, 1000, -1000],
-      [1000, 1000, 1000],
+      // [-1000, 1000, -1000],
+      // [1000, 1000, 1000],
       // [1000, 1000, -1000],
       // [-1000, 1000, 1000],
     ];
@@ -249,13 +255,12 @@ function Screensaver() {
     light.position.set(camera.position.x, camera.position.y, camera.position.z);
     light.lookAt(scene.position);
 
-    if (logotypeRotationAngle) {
-      camera.position.x = Math.sin(currentLogotypeRotationAngle) * 700; //if currentAnimation === ...
-      camera.position.z = Math.cos(currentLogotypeRotationAngle) * 700;
-      camera.lookAt(scene.position);
-      if (currentLogotypeRotationAngle <= Math.pow(2, 53)) currentLogotypeRotationAngle += logotypeRotationAngle;
-      else currentLogotypeRotationAngle = 0;
-    }
+    camera.position.x = Math.sin(currentLogotypeRotationAngle) * cameraScalar; //if currentAnimation === ...
+    camera.position.y = cameraScalar;
+    camera.position.z = Math.cos(currentLogotypeRotationAngle) * cameraScalar;
+    camera.lookAt(scene.position);
+    if (currentLogotypeRotationAngle <= Math.pow(2, 53)) currentLogotypeRotationAngle += logotypeRotationAngle;
+    else currentLogotypeRotationAngle = 0;
 
     if (currentAnimation === "randomMove") {
       for (let dot of dotsArray) {

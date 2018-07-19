@@ -52,11 +52,40 @@ function UI() {
     "step": 0.0001,
     "value": 0.005
   });
-  $(labCameraRotationSpeed).append(inputRange_logotypeRotationAngle);
+
+  var pValue_1 = $('<p>');
+  $(pValue_1).text("0.005");
+  $(labCameraRotationSpeed).append(inputRange_logotypeRotationAngle, pValue_1);
+
   $("#control").append(labCameraRotationSpeed);
 
   $("#inputRange_logotypeRotationAngle").on("input", function() {
+    $(pValue_1).text(parseFloat($(this).val()));
     screensaver.setLogotypeRotationAngle(parseFloat($(this).val()));
+  });
+
+  //camera positions
+  var labCameraPositionScalar = $('<label>').text("Camera distance : ");
+
+  var inputRange_cameraPositionScalar = $('<input>');
+  $(inputRange_cameraPositionScalar).attr({
+    'id': 'inputRange_cameraPositionScalar',
+    "type": "range",
+    "min": 500,
+    "max": 4000,
+    "step": 1,
+    "value": 1000
+  });
+
+  var pValue_2 = $('<p>');
+  $(pValue_2).text("1000");
+  $(labCameraPositionScalar).append(inputRange_cameraPositionScalar, pValue_2);
+
+  $("#control").append(labCameraPositionScalar);
+
+  $("#inputRange_cameraPositionScalar").on("input", function() {
+    $(pValue_2).text(parseFloat($(this).val()));
+    screensaver.setCameraScalar(parseFloat($(this).val()));
   });
 
   //mirror

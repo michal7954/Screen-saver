@@ -39,24 +39,32 @@ body{
   align-items: center;
   position:absolute;
   left:0px;
-  width:10vw;
+  width:15vw;
   height:100vh;
   background-color: silver;
 }
 
 #control p{
-  padding: 5%;
   font-size: 110%;
 }
 
-#inputRange_logotypeRotationAngle{
-  padding: 5%;
+#control select{
+  margin: 5%;
+}
+
+#control label{
+  display: flex;
+  margin: 5%;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
 }
 
 #root{
   position: absolute;
   float: left;
-  left: 10vw;
-  width: 90vw;
+  left: 15vw;
+  width: 85vw;
   height: 100vh;
 }

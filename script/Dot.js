@@ -15,8 +15,9 @@ function Dot(id, material) {
   var trajectory = Math.floor(Math.random() * 3 + 1);
 
   //elypticalMove
-  var axisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
-  var axis = axisArray[Math.floor(Math.random() * 9)];
+  // var axisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
+  var axisArray = ['x', 'y', 'z'];
+  var axis = axisArray[Math.floor(Math.random() * 3)];
 
   var radius = Math.floor(Math.random() * (700) + 300); //<300, 400>
   //console.log("radous", radius);
@@ -30,6 +31,10 @@ function Dot(id, material) {
     direction = 1;
   else
     direction = -1;
+
+  this.setRadius = (value) => {
+    radius = vlaue;
+  };
 
   this.resetToElypticalMove = () => {
     geometry.center();
