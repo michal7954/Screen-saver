@@ -2,6 +2,10 @@ function Screensaver() {
 
   //##############Public methods################//
 
+  this.setCameraRotationType = (type) => {
+    cameraRotationType = type;
+  };
+
   this.setLogotypeRotationAngle = (angle) => {
     logotypeRotationAngle = angle;
   };
@@ -95,6 +99,7 @@ function Screensaver() {
   var logotypeRotationAngle = 0.005;
   var currentLogotypeRotationAngle = 0;
   var cameraScalar = 1000;
+  var cameraRotationType = "type_1";
 
   //#############End of variables###############//
 
@@ -123,7 +128,7 @@ function Screensaver() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function () {
+    $(window).on("resize", function() {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
       renderer.setSize(width, height);
@@ -133,14 +138,14 @@ function Screensaver() {
 
     //orbitControl
     orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function () {
+    orbitControl.addEventListener('change', function() {
       renderer.render(scene, camera);
     });
 
-    //stats -fps
-    stats = new Stats()
-    stats.showPanel(0)
-    $('#control').append(stats.dom)
+    //stats
+    stats = new Stats();
+    stats.showPanel(0);
+    $('#control').append(stats.dom);
   }
 
   initEngine();
@@ -204,7 +209,7 @@ function Screensaver() {
     scene.add(new THREE.HemisphereLight(0xffffbb, 0x080820, 1)); //!!!
 
     var lightPositions = [
-      // [-1000, 1000, -1000],
+      //[-1000, 1000, -1000],
       // [1000, 1000, 1000],
       // [1000, 1000, -1000],
       // [-1000, 1000, 1000],
@@ -260,9 +265,15 @@ function Screensaver() {
     // light.position.set(camera.position.x, camera.position.y, camera.position.z);
     // light.lookAt(scene.position);
 
-    camera.position.x = Math.sin(currentLogotypeRotationAngle) * cameraScalar; //if currentAnimation === ...
-    camera.position.y = cameraScalar;
-    camera.position.z = Math.cos(currentLogotypeRotationAngle) * cameraScalar;
+    if (cameraRotationType === "type_1") {
+      camera.position.x = Math.sin(currentLogotypeRotationAngle) * cameraScalar;
+      camera.position.y = cameraScalar;
+      camera.position.z = Math.cos(currentLogotypeRotationAngle) * cameraScalar;
+    } else if (cameraRotationType === "type_2") {
+      camera.position.x = Math.sin(currentLogotypeRotationAngle) * cameraScalar;
+      camera.position.y = Math.cos(currentLogotypeRotationAngle + Math.PI / 2) * cameraScalar / 2;
+      camera.position.z = Math.cos(currentLogotypeRotationAngle) * cameraScalar;
+    }
     camera.lookAt(scene.position);
     if (currentLogotypeRotationAngle <= Math.pow(2, 53)) currentLogotypeRotationAngle += logotypeRotationAngle;
     else currentLogotypeRotationAngle = 0;

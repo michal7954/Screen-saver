@@ -41,6 +41,37 @@ function UI() {
 
   //##########Custom############//
 
+  //camera rotation type
+  var labCameraRotationType = $('<label>').text("Camera rotation type : ").attr('id', 'labCameraRotationType');
+  var inputRadio_cameraRotationType_1 = $('<input>'),
+    inputRadio_cameraRotationType_2 = $('<input>');
+
+  var labCameraRotationType_1 = $('<label>').text("Type 1");
+  $(inputRadio_cameraRotationType_1).attr({
+    "type": "radio",
+    "name": "cameraRotationType",
+    'id': 'inputRadio_cameraRotationType_1',
+    'value': 'type_1',
+    'text': 'f'
+  });
+  $(labCameraRotationType_1).append(inputRadio_cameraRotationType_1);
+
+  var labCameraRotationType_2 = $('<label>').text("Type 2");
+  $(inputRadio_cameraRotationType_2).attr({
+    "type": "radio",
+    "name": "cameraRotationType",
+    'id': 'inputRadio_cameraRotationType_2',
+    'value': 'type_2'
+  });
+  $(labCameraRotationType_2).append(inputRadio_cameraRotationType_2);
+
+  $(labCameraRotationType).append(labCameraRotationType_1, labCameraRotationType_2);
+  $("#control").append(labCameraRotationType);
+
+  $("#labCameraRotationType input").on("change", function() {
+    screensaver.setCameraRotationType($(this).val());
+  });
+
   //logotypeRotationAngle
   var labCameraRotationSpeed = $('<label>').text("Camera rotation speed : ");
   var inputRange_logotypeRotationAngle = $('<input>');

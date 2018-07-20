@@ -61,6 +61,11 @@ body{
   flex-direction: column;
 }
 
+#control #labCameraRotationType label{
+  display: flex;
+  flex-direction: row;
+}
+
 #root{
   position: absolute;
   float: left;
