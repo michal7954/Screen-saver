@@ -193,11 +193,11 @@ function Screensaver() {
     });
 
     //lights
-    light = new THREE.SpotLight(0xffffcc, 2, 2000, 3.14);
-    light.castShadow = true;
-    scene.add(light);
+    // light = new THREE.SpotLight(0xffffcc, 2, 2000, 3.14);
+    // light.castShadow = true;
+    // scene.add(light);
 
-    scene.add(new THREE.AmbientLight(0x404040)); //!!!
+    scene.add(new THREE.HemisphereLight(0xffffbb, 0x080820, 1)); //!!!
 
     var lightPositions = [
       // [-1000, 1000, -1000],
@@ -252,8 +252,8 @@ function Screensaver() {
 
   function render() {
 
-    light.position.set(camera.position.x, camera.position.y, camera.position.z);
-    light.lookAt(scene.position);
+    // light.position.set(camera.position.x, camera.position.y, camera.position.z);
+    // light.lookAt(scene.position);
 
     camera.position.x = Math.sin(currentLogotypeRotationAngle) * cameraScalar; //if currentAnimation === ...
     camera.position.y = cameraScalar;
