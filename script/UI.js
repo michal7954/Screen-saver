@@ -79,7 +79,7 @@ function UI() {
     'id': 'inputRange_logotypeRotationAngle',
     "type": "range",
     "min": 0,
-    "max": 0.02,
+    "max": 0.020,
     "step": 0.0001,
     "value": 0.005
   });
@@ -103,7 +103,7 @@ function UI() {
     'id': 'inputRange_cameraPositionScalar',
     "type": "range",
     "min": 500,
-    "max": 4000,
+    "max": 2500,
     "step": 1,
     "value": 1000
   });
@@ -131,6 +131,20 @@ function UI() {
 
   $("#inputCheckbox_mirror").change(function() {
     screensaver.setMirror();
+  });
+
+  //hemisphereLight
+  var labHemisphereLight = $('<label>').text("Hemisphere light : ");
+  var inputCheckbox_hLight = $('<input>');
+  $(inputCheckbox_hLight).attr({
+    'id': 'inputCheckbox_hLight',
+    "type": "checkbox",
+  });
+  $(labHemisphereLight).append(inputCheckbox_hLight);
+  $("#control").append(labHemisphereLight);
+
+  $("#inputCheckbox_hLight").change(function() {
+    screensaver.setHemisphereLight();
   });
 
   //##########To animations############//

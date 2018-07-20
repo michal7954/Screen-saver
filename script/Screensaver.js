@@ -22,7 +22,8 @@ function Screensaver() {
         textureWidth: 3000,
         textureHeight: 3000,
         //color: 0x000000,
-        recursion: 1
+        recursion: 1,
+        shininess: 20,
       });
       groundMirror.position.y = -200;
       groundMirror.rotateX(-Math.PI / 2);
@@ -31,6 +32,16 @@ function Screensaver() {
     } else {
       scene.remove(groundMirror);
       groundMirror = false;
+    }
+  };
+
+  this.setHemisphereLight = () => {
+    if (!hemisphereLight) {
+      hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
+      scene.add(hemisphereLight);
+    } else {
+      scene.remove(hemisphereLight);
+      hemisphereLight = false;
     }
   };
 
@@ -74,7 +85,7 @@ function Screensaver() {
   var axes; //na razie
 
   var logotype, logotypeContainer;
-  var light;
+  var light, hemisphereLight = false;
   var groundMirror = false;
 
   //var parent = new THREE.Object3D();
@@ -137,10 +148,10 @@ function Screensaver() {
     });
 
     //orbitControl
-    orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    orbitControl.addEventListener('change', function() {
-      renderer.render(scene, camera);
-    });
+    // orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
+    // orbitControl.addEventListener('change', function() {
+    //   renderer.render(scene, camera);
+    // });
 
     //stats
     stats = new Stats();
@@ -202,21 +213,19 @@ function Screensaver() {
     });
 
     //lights
-    // light = new THREE.SpotLight(0xffffcc, 2, 2000, 3.14);
-    // light.castShadow = true;
-    // scene.add(light);
-
-    scene.add(new THREE.HemisphereLight(0xffffbb, 0x080820, 1)); //!!!
+    light = new THREE.SpotLight(0xffffcc, 2, 2000, 3.14);
+    light.castShadow = true;
+    scene.add(light);
 
     var lightPositions = [
-      //[-1000, 1000, -1000],
+      // [-1000, 1000, -1000],
       // [1000, 1000, 1000],
       // [1000, 1000, -1000],
       // [-1000, 1000, 1000],
     ];
 
     for (let lightPos of lightPositions) {
-      let light = new THREE.SpotLight(0xffffcc, 3, 1500, 3.14 / 8);
+      let light = new THREE.PointLight(0xffffcc, 3, 1500, 3.14 / 8);
       light.castShadow = true;
       light.position.set(lightPos[0], lightPos[1], lightPos[2]);
       light.lookAt(scene.position);
@@ -262,8 +271,8 @@ function Screensaver() {
   function render() {
     stats.begin();
 
-    // light.position.set(camera.position.x, camera.position.y, camera.position.z);
-    // light.lookAt(scene.position);
+    light.position.set(camera.position.x, camera.position.y, camera.position.z);
+    light.lookAt(scene.position);
 
     if (cameraRotationType === "type_1") {
       camera.position.x = Math.sin(currentLogotypeRotationAngle) * cameraScalar;
