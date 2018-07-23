@@ -23,7 +23,7 @@ function Screensaver() {
         textureHeight: 3000,
         //color: 0x000000,
         recursion: 1,
-        shininess: 20,
+        //shininess: 20,
       });
       groundMirror.position.y = -200;
       groundMirror.rotateX(-Math.PI / 2);
