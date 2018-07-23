@@ -1,0 +1,64 @@
+* {
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+html {
+  min-width: 400px;
+  min-height: 400px;
+}
+
+#control {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: silver;
+}
+
+#control p {
+  font-size: 110%;
+}
+
+#control select {
+  margin: 30px;
+}
+
+#control label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: silver;
+  width: 450px;
+  padding: 15px;
+}
+
+#control #labCameraRotationType {
+  display: flex;
+}
+
+#control #labCameraRotationType label {
+  display: flex;
+  justify-content: space-around;
+  width: 100px;
+  padding: 0;
+}
+
+#control #settingsDiv .axisDiv {
+  position: relative;
+  border: 2px solid black;
+  width: 140px;
+  height: 140px;
+}
+
+#control #settingsDiv .axisDiv .axisLabel {
+  position: absolute;
+  display: inline;
+}
+
+#control #settingsDiv .buttonRefreshDots {
+  width: 140px;
+}

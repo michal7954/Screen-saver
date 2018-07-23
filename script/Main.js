@@ -1,2 +1,6 @@
 var screensaver = new Screensaver();
-var ui = new UI();
+
+function openWin() {
+  myWindow = window.open("controlPanel.html", "", "width=600, height=600");
+}
+openWin();
