@@ -1,7 +1,10 @@
 * {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+}
+
+body{
+  overflow-x: hidden;
 }
 
 html {
@@ -27,6 +30,34 @@ html {
   margin: 30px;
 }
 
+#settingsDiv{
+  width: 500px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#settingsDiv .axisDiv{
+  flex-wrap: wrap;
+  border: 2px dashed black;
+  width: 140px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+}
+
+#settingsDiv .axisDiv label{
+  width: 26px;
+  margin: 10px;
+  padding: 0;
+}
+
+#settingsDiv .buttonRefreshDots {
+  width: 140px;
+}
+
 #control label {
   display: flex;
   justify-content: space-between;
@@ -45,20 +76,4 @@ html {
   justify-content: space-around;
   width: 100px;
   padding: 0;
-}
-
-#control #settingsDiv .axisDiv {
-  position: relative;
-  border: 2px solid black;
-  width: 140px;
-  height: 140px;
-}
-
-#control #settingsDiv .axisDiv .axisLabel {
-  position: absolute;
-  display: inline;
-}
-
-#control #settingsDiv .buttonRefreshDots {
-  width: 140px;
 }

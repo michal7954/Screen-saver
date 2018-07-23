@@ -30,8 +30,8 @@ function Dot(id, material) {
   this.resetToElypticalMove = (axisArray) => {
     geometry.center();
     dotMesh.position.set(0, 0, 0);
+    dotMesh.rotation.set(0, 0, 0);
     startAngle = 0;
-    dotMesh.rotation.set(0, 0, 0)
 
     if (axisArray)
       axis = axisArray[Math.floor(Math.random() * axisArray.length)];
@@ -77,7 +77,7 @@ function Dot(id, material) {
     dotMesh.position.set(Math.random() * 1200 - 600, posY, Math.random() * 1200 - 600);
   };
 
-  this.setPositionToElypticalMove = function () {
+  this.setPositionToElypticalMove = function() {
     switch (axis) {
       case 'x':
         dotMesh.rotateX(direction * angle);
@@ -115,7 +115,7 @@ function Dot(id, material) {
     }
   };
 
-  this.setPositionToFreeFall = function () { //set pos y to > 0
+  this.setPositionToFreeFall = function() { //set pos y to > 0
     if (dotMesh.position.y <= -145) {
       //todo : clock reset
       time = 0;
@@ -128,7 +128,7 @@ function Dot(id, material) {
     }
   };
 
-  this.setPositionToRandomMove = function () {
+  this.setPositionToRandomMove = function() {
     switch (trajectory) {
       case 1:
         dotMesh.position.x = 600 * Math.cos(clock.getElapsedTime() / 10 + id);
@@ -145,7 +145,7 @@ function Dot(id, material) {
     }
   };
 
-  this.getDotContainer = function () {
+  this.getDotContainer = function() {
     return dotContainer;
   };
 }
