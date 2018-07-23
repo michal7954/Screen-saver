@@ -15,65 +15,50 @@ function Dot(id, material) {
   var trajectory = Math.floor(Math.random() * 3 + 1);
 
   //elypticalMove
-  // var axisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
-  var axisArray = ['x', 'y', 'z'];
-  var axis = axisArray[Math.floor(Math.random() * 3)];
-
-  var radius = Math.floor(Math.random() * (700) + 300); //<300, 400>
-  //console.log("radous", radius);
+  var axisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
+  var axis = axisArray[Math.floor(Math.random() * 9)];
   var angle = Math.random() * 0.006 + 0.001;
-  var startAngle = Math.random() * 2 * Math.PI - Math.PI;
-
+  var radius = Math.floor(Math.random() * (700) + 300); //<300, 1000)
   var direction = 0;
   var directionBool = Math.floor(Math.random() * 2);
-
   if (directionBool)
     direction = 1;
   else
     direction = -1;
 
-  this.setRadius = (value) => {
-    radius = vlaue;
-  };
-
-  this.resetToElypticalMove = () => {
+  //publicFunctions
+  this.resetToElypticalMove = (axisArray) => {
     geometry.center();
     dotMesh.position.set(0, 0, 0);
+    startAngle = 0;
+    dotMesh.rotation.set(0, 0, 0)
+
+    if (axisArray)
+      axis = axisArray[Math.floor(Math.random() * axisArray.length)];
 
     switch (axis) {
       case 'x':
         geometry.translate(0, radius, 0);
-        dotMesh.rotation.x = startAngle;
         break;
       case 'y':
         geometry.translate(0, 0, radius);
-        dotMesh.rotation.y = startAngle;
         break;
       case 'z':
         geometry.translate(radius, 0, 0);
-        dotMesh.rotation.z = startAngle;
         break;
       case 'x1':
         geometry.translate(0, 0, radius);
-        dotMesh.rotation.x = startAngle;
-        dotMesh.rotation.y = startAngle;
         break;
       case 'x2':
         geometry.translate(0, 0, radius);
-        dotMesh.rotation.x = startAngle;
-        dotMesh.rotation.y = startAngle;
         break;
       case 'y1':
       case 'y2':
         geometry.translate(radius, 0, 0);
-        dotMesh.rotation.y = startAngle;
-        dotMesh.rotation.z = startAngle;
         break;
       case 'z1':
       case 'z2':
         geometry.translate(0, radius, 0);
-        dotMesh.rotation.z = startAngle;
-        dotMesh.rotation.x = startAngle;
         break;
     }
   };
@@ -92,7 +77,7 @@ function Dot(id, material) {
     dotMesh.position.set(Math.random() * 1200 - 600, posY, Math.random() * 1200 - 600);
   };
 
-  this.setPositionToElypticalMove = function() {
+  this.setPositionToElypticalMove = function () {
     switch (axis) {
       case 'x':
         dotMesh.rotateX(direction * angle);
@@ -109,28 +94,28 @@ function Dot(id, material) {
         break;
       case 'y1':
         dotMesh.rotateY(direction * angle);
-        dotMesh.rotateZ(angle);
+        dotMesh.rotateZ(direction * angle);
         break;
       case 'z1':
         dotMesh.rotateZ(direction * angle);
-        dotMesh.rotateX(angle);
+        dotMesh.rotateX(direction * angle);
         break;
       case 'x2':
         dotMesh.rotateX(direction * angle);
-        dotMesh.rotateY(-angle);
+        dotMesh.rotateY(direction * -angle);
         break;
       case 'y2':
         dotMesh.rotateY(direction * angle);
-        dotMesh.rotateZ(-angle);
+        dotMesh.rotateZ(direction * -angle);
         break;
       case 'z2':
         dotMesh.rotateZ(direction * angle);
-        dotMesh.rotateX(-angle);
+        dotMesh.rotateX(direction * -angle);
         break;
     }
   };
 
-  this.setPositionToFreeFall = function() { //set pos y to > 0
+  this.setPositionToFreeFall = function () { //set pos y to > 0
     if (dotMesh.position.y <= -145) {
       //todo : clock reset
       time = 0;
@@ -143,7 +128,7 @@ function Dot(id, material) {
     }
   };
 
-  this.setPositionToRandomMove = function() {
+  this.setPositionToRandomMove = function () {
     switch (trajectory) {
       case 1:
         dotMesh.position.x = 600 * Math.cos(clock.getElapsedTime() / 10 + id);
@@ -160,8 +145,7 @@ function Dot(id, material) {
     }
   };
 
-  this.getDotContainer = function() {
+  this.getDotContainer = function () {
     return dotContainer;
   };
-
 }

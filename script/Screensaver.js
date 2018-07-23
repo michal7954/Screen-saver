@@ -54,9 +54,9 @@ function Screensaver() {
     currentAnimation = "randomMove";
   };
 
-  this.setToElypticalMove = () => {
+  this.setToElypticalMove = (axisArray) => {
     for (let dot of dotsArray) {
-      dot.resetToElypticalMove();
+      dot.resetToElypticalMove(axisArray);
     }
 
     currentAnimation = "eliptycalMove";
@@ -139,7 +139,7 @@ function Screensaver() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
       renderer.setSize(width, height);
