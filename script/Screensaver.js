@@ -93,9 +93,11 @@ function Screensaver() {
   var dotsArray = [];
 
   //others
-  var width = window.innerWidth;
-  var height = window.innerHeight;
-  console.log("window inner W&H", width, height); //?
+  // var width = window.innerWidth;
+  // var height = window.innerHeight;
+  // console.log("window inner W&H", width, height); //?
+  var width = $("#root")[0].clientWidth;
+  var height = $("#root")[0].clientHeight;
 
   // var center = {
   //   x: 9.279999732971191,

@@ -1,152 +1,24 @@
 * {
   margin: 0;
   padding: 0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
   overflow: hidden;
-}
-
-body {
-  height: 100vh;
-  width: 100vw;
-}
-
-body {
-  height: 100vh;
-  width: 100vw;
+  background-color: black;
 }
 
 #control {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  left: 0px;
-  width: 15vw;
-  height: 100vh;
+  float: left;
+  height: 100%;
+  width: 27%;
   background-color: silver;
-}
-
-#control p {
-  font-size: 110%;
-}
-
-#control select {
-  margin: 5%;
-}
-
-#control label {
-  display: flex;
-  margin: 5%;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  flex-direction: column;
-}
-
-#control #labCameraRotationType label {
-  display: flex;
-  flex-direction: row;
 }
 
 #root {
-  position: absolute;
   float: left;
-  left: 15vw;
-  width: 85vw;
-  height: 100vh;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  overflow-x: hidden;
-}
-
-html {
-  min-width: 400px;
-  min-height: 400px;
-}
-
-#control {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 100vh;
-  background-color: silver;
-}
-
-#control p {
-  font-size: 110%;
-}
-
-#control select {
-  margin: 30px;
-}
-
-#settingsDiv {
-  width: 500px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-#settingsDiv .axisDiv {
-  flex-wrap: wrap;
-  border: 1px dotted black;
-  width: 140px;
-  height: 140px;
-  display: flex;
-  align-items: center;
-}
-
-#settingsDiv .dirDiv {
-  flex-wrap: wrap;
-  border: 1px dotted black;
-  width: 100px;
-  height: 140px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: space-evenly;
-}
-
-#settingsDiv .axisDiv label, #settingsDiv .dirDiv label {
-  width: 26px;
-  margin: 10px;
-  padding: 0;
-}
-
-#settingsDiv .buttonRefreshDots {
-  width: 140px;
-}
-
-#control label {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: silver;
-  width: 450px;
-  padding: 15px;
-}
-
-#control legend {
-  text-align: center;
-}
-
-#control #labCameraRotationType {
-  display: flex;
-}
-
-#control #labCameraRotationType label {
-  display: flex;
-  justify-content: space-around;
-  width: 100px;
-  padding: 0;
+  height: 100%;
+  width: 73%;
 }
