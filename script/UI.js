@@ -19,7 +19,7 @@ function UI() {
   $(switchAnimationSelect).append(option, option_1, option_2, option_3);
   $("#control").append(switchAnimationSelect);
 
-  $("#switchAnimationSelect").change(function() { //select on redo eg "2" also
+  $("#switchAnimationSelect").change(function () { //select on redo eg "2" also
     selectVal = $(this).val();
     switch (selectVal) {
       case "Random move":
@@ -71,7 +71,7 @@ function UI() {
   $(labCameraRotationType).append(labCameraRotationType_1, labCameraRotationType_2);
   $("#control").append(labCameraRotationType);
 
-  $("#labCameraRotationType input").on("change", function() {
+  $("#labCameraRotationType input").on("change", function () {
     screensaver.setCameraRotationType($(this).val());
   });
 
@@ -93,7 +93,7 @@ function UI() {
 
   $("#control").append(labCameraRotationSpeed);
 
-  $("#inputRange_logotypeRotationAngle").on("input", function() {
+  $("#inputRange_logotypeRotationAngle").on("input", function () {
     $(pValue_1).text(parseFloat($(this).val()));
     screensaver.setLogotypeRotationAngle(parseFloat($(this).val()));
   });
@@ -117,7 +117,7 @@ function UI() {
 
   $("#control").append(labCameraPositionScalar);
 
-  $("#inputRange_cameraPositionScalar").on("input", function() {
+  $("#inputRange_cameraPositionScalar").on("input", function () {
     $(pValue_2).text(parseFloat($(this).val()));
     screensaver.setCameraScalar(parseFloat($(this).val()));
   });
@@ -132,7 +132,7 @@ function UI() {
   $(labMirror).append(inputCheckbox_mirror);
   $("#control").append(labMirror);
 
-  $("#inputCheckbox_mirror").change(function() {
+  $("#inputCheckbox_mirror").change(function () {
     screensaver.setMirror();
   });
 
@@ -146,7 +146,7 @@ function UI() {
   $(labHemisphereLight).append(inputCheckbox_hLight);
   $("#control").append(labHemisphereLight);
 
-  $("#inputCheckbox_hLight").change(function() {
+  $("#inputCheckbox_hLight").change(function () {
     screensaver.setHemisphereLight();
   });
 
@@ -161,17 +161,18 @@ function UI() {
 
     var axisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
 
-    var axisDiv = $('<div>')
+    var axisDiv = $('<fieldset>')
       .addClass('axisDiv');
+
+    var axisLegend = $('<legend>')
+      .text('Rotation axis')
+      .attr('align', 'center');
+    axisDiv.append(axisLegend);
 
     for (let i = 0; i < axisArray.length; i++) {
       var axisLabel = $('<label>')
         .text(axisArray[i])
         .addClass('axisLabel')
-        .css({
-          'left': (i % 3) * 40 + 10,
-          'top': (parseInt(i / 3) * 40)
-        });
 
       var axisCheckBox = $('<input>')
         .val(axisArray[i])
@@ -186,16 +187,46 @@ function UI() {
     }
     $(settingsDiv).append(axisDiv);
 
+    var dirArray = [-1, 'Both', 1];
+
+    var dirDiv = $('<fieldset>')
+      .addClass('dirDiv');
+
+    var dirLegend = $('<legend>')
+      .text('Direction')
+      .attr('align', 'center');
+    dirDiv.append(dirLegend);
+
+    for (let i = 0; i < dirArray.length; i++) {
+      var dirLabel = $('<label>')
+        .text(dirArray[i])
+        .addClass('dirLabel')
+
+      var dirRadio = $('<input>')
+        .val(dirArray[i])
+        .addClass('dirRadio')
+        .attr({
+          'name': 'dir',
+          'type': 'radio'
+        });
+
+      dirLabel.append(dirRadio);
+      dirDiv.append(dirLabel);
+    }
+    $(settingsDiv).append(dirDiv);
+
     var buttonRefreshDots = $('<button>')
       .addClass('buttonRefreshDots')
       .text('Refresh')
-      .on('click', function() {
+      .on('click', function () {
         var axisArray = [];
 
-        $.each($('.axisCheckBox:checked'), function(key, value) {
+        $.each($('.axisCheckBox:checked'), function (key, value) {
           axisArray.push($(value).val());
         });
-        screensaver.setToElypticalMove(axisArray);
+        var dir = $("input[name='dir']:checked").val();
+
+        screensaver.setToElypticalMove(axisArray, dir);
 
       });
     $(settingsDiv).append(buttonRefreshDots);

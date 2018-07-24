@@ -3,7 +3,7 @@
   padding: 0;
 }
 
-body{
+body {
   overflow-x: hidden;
 }
 
@@ -30,7 +30,7 @@ html {
   margin: 30px;
 }
 
-#settingsDiv{
+#settingsDiv {
   width: 500px;
   display: flex;
   flex-direction: row;
@@ -39,16 +39,27 @@ html {
   margin-bottom: 15px;
 }
 
-#settingsDiv .axisDiv{
+#settingsDiv .axisDiv {
   flex-wrap: wrap;
-  border: 2px dashed black;
+  border: 1px dotted black;
   width: 140px;
   height: 140px;
   display: flex;
   align-items: center;
 }
 
-#settingsDiv .axisDiv label{
+#settingsDiv .dirDiv {
+  flex-wrap: wrap;
+  border: 1px dotted black;
+  width: 100px;
+  height: 140px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+#settingsDiv .axisDiv label, #settingsDiv .dirDiv label {
   width: 26px;
   margin: 10px;
   padding: 0;
@@ -65,6 +76,10 @@ html {
   background-color: silver;
   width: 450px;
   padding: 15px;
+}
+
+#control legend {
+  text-align: center;
 }
 
 #control #labCameraRotationType {

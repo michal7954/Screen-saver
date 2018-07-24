@@ -54,9 +54,9 @@ function Screensaver() {
     currentAnimation = "randomMove";
   };
 
-  this.setToElypticalMove = (axisArray) => {
+  this.setToElypticalMove = (axisArray, dir) => {
     for (let dot of dotsArray) {
-      dot.resetToElypticalMove(axisArray);
+      dot.resetToElypticalMove(axisArray, dir);
     }
 
     currentAnimation = "eliptycalMove";
