@@ -45,6 +45,17 @@ function Screensaver() {
     }
   };
 
+  this.setBackgroundColor = (color) => {
+    switch (color) {
+      case "black":
+        renderer.setClearColor(0x000000);
+        break;
+      case "white":
+        renderer.setClearColor(0xffffff);
+        break;
+    }
+  };
+
   //animations
   this.setToRandomMove = () => {
     for (let dot of dotsArray) {
@@ -139,7 +150,7 @@ function Screensaver() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function () {
+    $(window).on("resize", function() {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
       renderer.setSize(width, height);

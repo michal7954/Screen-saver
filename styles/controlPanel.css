@@ -77,3 +77,17 @@ html {
   width: 100px;
   padding: 0;
 }
+
+#blackDiv, #whiteDiv{
+  width: 20px;
+  height: 20px;
+  border: 2px solid gray;
+}
+
+#blackDiv{
+  background-color: black;
+}
+
+#whiteDiv{
+  background-color: white;
+}

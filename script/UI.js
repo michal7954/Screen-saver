@@ -150,6 +150,27 @@ function UI() {
     screensaver.setHemisphereLight();
   });
 
+  //background color
+  var labBackgroundColor = $('<label>').text("Background : ");
+  var blackDiv = $('<div>').attr('id', "blackDiv");
+  var whiteDiv = $('<div>').attr('id', "whiteDiv");
+  $(labBackgroundColor).append(blackDiv, whiteDiv);
+  $("#control").append(labBackgroundColor);
+
+  $("#blackDiv").on('click', function() {
+    $(this).css('border', '2px solid white');
+    $("#whiteDiv").css('border', '2px solid gray');
+
+    screensaver.setBackgroundColor("black");
+  });
+
+  $("#whiteDiv").on('click', function() {
+    $(this).css('border', '2px solid black');
+    $("#blackDiv").css('border', '2px solid gray');
+
+    screensaver.setBackgroundColor("white");
+  });
+
   //##########To animations############//
 
   function setSettingsToRandomMove() {
