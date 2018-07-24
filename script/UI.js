@@ -1,7 +1,4 @@
 function UI() {
-  //screensaver
-  var screensaver = window.opener.screensaver;
-
   //##############Title################//
   var pConfigurationPanel = $('<p>');
   $(pConfigurationPanel).text("Configutation panel");
