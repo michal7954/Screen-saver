@@ -23,7 +23,7 @@ function Screensaver() {
         textureHeight: 3000,
         //color: 0x000000,
         recursion: 1,
-        //shininess: 20,
+        shininess: 20,
       });
       groundMirror.position.y = -200;
       groundMirror.rotateX(-Math.PI / 2);
@@ -93,9 +93,11 @@ function Screensaver() {
   var dotsArray = [];
 
   //others
-  var width = window.innerWidth;
-  var height = window.innerHeight;
-  console.log("window inner W&H", width, height); //?
+  // var width = window.innerWidth;
+  // var height = window.innerHeight;
+  // console.log("window inner W&H", width, height); //?
+  var width = $("#root")[0].clientWidth;
+  var height = $("#root")[0].clientHeight;
 
   // var center = {
   //   x: 9.279999732971191,
