@@ -1,7 +1,4 @@
 function UI() {
-  //screensaver
-  var screensaver = window.opener.screensaver;
-
   //##############Title################//
   var pConfigurationPanel = $('<p>');
   $(pConfigurationPanel).text("Configutation panel");
@@ -182,17 +179,18 @@ function UI() {
 
     var axisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
 
-    var axisDiv = $('<div>')
+    var axisDiv = $('<fieldset>')
       .addClass('axisDiv');
+
+    var axisLegend = $('<legend>')
+      .text('Rotation axis')
+      .attr('align', 'center');
+    axisDiv.append(axisLegend);
 
     for (let i = 0; i < axisArray.length; i++) {
       var axisLabel = $('<label>')
         .text(axisArray[i])
-        .addClass('axisLabel')
-        .css({
-          'left': (i % 3) * 40 + 10,
-          'top': (parseInt(i / 3) * 40)
-        });
+        .addClass('axisLabel');
 
       var axisCheckBox = $('<input>')
         .val(axisArray[i])
@@ -207,6 +205,34 @@ function UI() {
     }
     $(settingsDiv).append(axisDiv);
 
+    var dirArray = [-1, 'Both', 1];
+
+    var dirDiv = $('<fieldset>')
+      .addClass('dirDiv');
+
+    var dirLegend = $('<legend>')
+      .text('Direction')
+      .attr('align', 'center');
+    dirDiv.append(dirLegend);
+
+    for (let i = 0; i < dirArray.length; i++) {
+      var dirLabel = $('<label>')
+        .text(dirArray[i])
+        .addClass('dirLabel');
+
+      var dirRadio = $('<input>')
+        .val(dirArray[i])
+        .addClass('dirRadio')
+        .attr({
+          'name': 'dir',
+          'type': 'radio'
+        });
+
+      dirLabel.append(dirRadio);
+      dirDiv.append(dirLabel);
+    }
+    $(settingsDiv).append(dirDiv);
+
     var buttonRefreshDots = $('<button>')
       .addClass('buttonRefreshDots')
       .text('Refresh')
@@ -216,7 +242,9 @@ function UI() {
         $.each($('.axisCheckBox:checked'), function(key, value) {
           axisArray.push($(value).val());
         });
-        screensaver.setToElypticalMove(axisArray);
+        var dir = $("input[name='dir']:checked").val();
+
+        screensaver.setToElypticalMove(axisArray, dir);
 
       });
     $(settingsDiv).append(buttonRefreshDots);
