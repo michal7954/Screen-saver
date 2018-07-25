@@ -2,7 +2,7 @@ function UI() {
   //screensaver
   var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
 
-  $(window).on("beforeunload", function() {
+  $(window).on("beforeunload", function () {
     window.opener.jQuery("#controlPanelDiv").css({
       'display': 'flex'
     });
@@ -182,6 +182,7 @@ function UI() {
   //##########Update settings from storage##############//
 
   //console.log($("option:contains('Eliptical move')"))
+  console.log(settings)
   $("option").each(function (index) {
     if (this.innerText == "Elyptical move") {
       console.log(this)
@@ -270,6 +271,14 @@ function UI() {
 
   function setSettingsToFreeFallMove() {
     $("#settingsDiv").empty();
+  }
+
+  this.saveSettings = function () {
+    var data = {
+      'currentAnimation': $("#switchAnimationSelect").val(),
+    }
+
+    localStorage.setItem("settings", data);
   }
 
 }

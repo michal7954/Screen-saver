@@ -1,14 +1,17 @@
 //main variables
+var settings = localStorage.getItem("settings")
 var screensaver = new Screensaver();
-var counter = parseInt(localStorage.getItem("counter"))
-if (!counter) {
-  localStorage.setItem("counter", 1);
-}
-else {
-  localStorage.setItem("counter", counter + 1);
-}
-console.log(parseInt(localStorage.getItem("counter")))
 var controlPanelWindow;
+
+// var counter = parseInt(localStorage.getItem("counter"))
+// if (!counter) {
+//   localStorage.setItem("counter", 1);
+// }
+// else {
+//   localStorage.setItem("counter", counter + 1);
+// }
+// console.log(parseInt(localStorage.getItem("counter")))
+
 
 //controlPanelDiv
 var controlPanelDiv = $('<div>');
@@ -34,4 +37,5 @@ openWin();
 
 $(window).on("beforeunload", function () {
   controlPanelWindow.close();
+  controlPanelWindow.ui.saveSettings();
 });
