@@ -2,6 +2,12 @@ function UI() {
   //screensaver
   var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
 
+  $(window).on("beforeunload", function() {
+    window.opener.jQuery("#controlPanelDiv").css({
+      'display': 'flex'
+    });
+  });
+
   //##############Title################//
   var pConfigurationPanel = $('<p>');
   $(pConfigurationPanel).html("<p><b>Configutation panel</b></p>");
