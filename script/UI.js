@@ -198,7 +198,8 @@ function UI() {
         .val(rotationAxisArray[i])
         .attr({
           'type': 'checkbox'
-        });
+        })
+        .addClass('axisCheckbox');
 
       axisLabel.append(axisCheckbox);
       axisFieldset.append(axisLabel);
@@ -239,7 +240,7 @@ function UI() {
       .on('click', function() {
         var rotationAxisArray = [];
 
-        $.each($('.axisCheckBox:checked'), function(key, value) {
+        $.each($('.axisCheckbox:checked'), function(key, value) {
           rotationAxisArray.push($(value).val());
         });
         var dir = $("input[name='dir']:checked").val();
