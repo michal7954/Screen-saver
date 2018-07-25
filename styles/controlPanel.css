@@ -25,6 +25,11 @@ html {
   width: 100vw;
 }
 
+audio{
+  padding: 15px;
+  width: 250px;
+}
+
 #control p {
   font-size: 110%;
 }

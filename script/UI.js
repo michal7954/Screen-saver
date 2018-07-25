@@ -4,7 +4,7 @@ function UI() {
 
   //##############Title################//
   var pConfigurationPanel = $('<p>');
-  $(pConfigurationPanel).text("Configutation panel");
+  $(pConfigurationPanel).html("<p><b>Configutation panel</b></p>");
   $("#control").append(pConfigurationPanel);
 
   //##############Select################//
