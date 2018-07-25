@@ -1,3 +1,5 @@
+/* custom */
+
 * {
   margin: 0;
   padding: 0;
@@ -11,6 +13,8 @@ html {
   min-width: 400px;
   min-height: 400px;
 }
+
+/* control */
 
 #control {
   display: flex;
@@ -28,34 +32,6 @@ html {
 
 #control select {
   margin: 30px;
-}
-
-#settingsDiv{
-  width: 500px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-#settingsDiv .axisDiv{
-  flex-wrap: wrap;
-  border: 2px dashed black;
-  width: 140px;
-  height: 140px;
-  display: flex;
-  align-items: center;
-}
-
-#settingsDiv .axisDiv label{
-  width: 26px;
-  margin: 10px;
-  padding: 0;
-}
-
-#settingsDiv .buttonRefreshDots {
-  width: 140px;
 }
 
 #control label {
@@ -90,4 +66,47 @@ html {
 
 #whiteDiv{
   background-color: white;
+}
+
+/* settingsDiv */
+
+#settingsDiv{
+  width: 450px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 15px;
+  justify-content: space-between;
+}
+
+#settingsDiv fieldset{
+  flex-wrap: wrap;
+  width: 150px;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  height: 140px;
+}
+
+#rotationDirectionFieldset label{
+  padding: 0px;
+  width: 100px;
+}
+
+#rotationDirectionFieldset{
+  justify-content: center;
+}
+
+/* #axisFieldset, #rotationDirectionFieldset{
+  width: 140px;
+} */
+
+#settingsDiv #axisFieldset label{
+  width: 26px;
+  margin: 10px;
+  padding: 0;
+}
+
+#settingsDiv #buttonRefreshDots {
+  width: 140px;
 }

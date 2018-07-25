@@ -1,4 +1,7 @@
 function UI() {
+  //screensaver
+  var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
+
   //##############Title################//
   var pConfigurationPanel = $('<p>');
   $(pConfigurationPanel).text("Configutation panel");
@@ -177,77 +180,74 @@ function UI() {
   function setSettingsToElypticalMove() {
     $("#settingsDiv").empty();
 
-    var axisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
+    //rotation axis
+    var rotationAxisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
 
-    var axisDiv = $('<fieldset>')
-      .addClass('axisDiv');
-
+    var axisFieldset = $('<fieldset>')
+      .attr('id', 'axisFieldset');
     var axisLegend = $('<legend>')
       .text('Rotation axis')
       .attr('align', 'center');
-    axisDiv.append(axisLegend);
+    axisFieldset.append(axisLegend);
 
-    for (let i = 0; i < axisArray.length; i++) {
+    for (let i = 0; i < rotationAxisArray.length; i++) {
       var axisLabel = $('<label>')
-        .text(axisArray[i])
-        .addClass('axisLabel');
+        .text(rotationAxisArray[i]);
 
-      var axisCheckBox = $('<input>')
-        .val(axisArray[i])
-        .addClass('axisCheckBox')
+      var axisCheckbox = $('<input>')
+        .val(rotationAxisArray[i])
         .attr({
-          'name': 'axis',
           'type': 'checkbox'
         });
 
-      axisLabel.append(axisCheckBox);
-      axisDiv.append(axisLabel);
+      axisLabel.append(axisCheckbox);
+      axisFieldset.append(axisLabel);
     }
-    $(settingsDiv).append(axisDiv);
 
-    var dirArray = [-1, 'Both', 1];
+    $("#settingsDiv").append(axisFieldset);
 
-    var dirDiv = $('<fieldset>')
-      .addClass('dirDiv');
+    //rotation direction
+    var rotationDirectionArray = [-1, 'Both', 1];
 
-    var dirLegend = $('<legend>')
+    var rotationDirectionFieldset = $('<fieldset>')
+      .attr('id', 'rotationDirectionFieldset');
+    var rotationDirectionLegend = $('<legend>')
       .text('Direction')
       .attr('align', 'center');
-    dirDiv.append(dirLegend);
+    rotationDirectionFieldset.append(rotationDirectionLegend);
 
-    for (let i = 0; i < dirArray.length; i++) {
+    for (let i = 0; i < rotationDirectionArray.length; i++) {
       var dirLabel = $('<label>')
-        .text(dirArray[i])
-        .addClass('dirLabel');
+        .text(rotationDirectionArray[i]);
 
       var dirRadio = $('<input>')
-        .val(dirArray[i])
-        .addClass('dirRadio')
+        .val(rotationDirectionArray[i])
         .attr({
           'name': 'dir',
           'type': 'radio'
         });
 
       dirLabel.append(dirRadio);
-      dirDiv.append(dirLabel);
+      rotationDirectionFieldset.append(dirLabel);
     }
-    $(settingsDiv).append(dirDiv);
+    $("#settingsDiv").append(rotationDirectionFieldset);
 
+    //refresh button
     var buttonRefreshDots = $('<button>')
-      .addClass('buttonRefreshDots')
+      .attr('id', 'buttonRefreshDots')
       .text('Refresh')
       .on('click', function() {
-        var axisArray = [];
+        var rotationAxisArray = [];
 
         $.each($('.axisCheckBox:checked'), function(key, value) {
-          axisArray.push($(value).val());
+          rotationAxisArray.push($(value).val());
         });
         var dir = $("input[name='dir']:checked").val();
 
-        screensaver.setToElypticalMove(axisArray, dir);
+        screensaver.setToElypticalMove(rotationAxisArray, dir);
 
       });
-    $(settingsDiv).append(buttonRefreshDots);
+    $("#settingsDiv").append(buttonRefreshDots);
   }
 
   function setSettingsToFreeFallMove() {
