@@ -19,7 +19,7 @@ function UI() {
   $(switchAnimationSelect).append(option, option_1, option_2, option_3);
   $("#control").append(switchAnimationSelect);
 
-  $("#switchAnimationSelect").change(function() { //select on redo eg "2" also
+  $("#switchAnimationSelect").change(function () { //select on redo eg "2" also
     selectVal = $(this).val();
     switch (selectVal) {
       case "Random move":
@@ -71,7 +71,7 @@ function UI() {
   $(labCameraRotationType).append(labCameraRotationType_1, labCameraRotationType_2);
   $("#control").append(labCameraRotationType);
 
-  $("#labCameraRotationType input").on("change", function() {
+  $("#labCameraRotationType input").on("change", function () {
     screensaver.setCameraRotationType($(this).val());
   });
 
@@ -93,7 +93,8 @@ function UI() {
 
   $("#control").append(labCameraRotationSpeed);
 
-  $("#inputRange_logotypeRotationAngle").on("input", function() {
+
+  $("#inputRange_logotypeRotationAngle").on("input", function () {
     $(pValue_1).text(parseFloat($(this).val()));
     screensaver.setLogotypeRotationAngle(parseFloat($(this).val()));
   });
@@ -117,7 +118,7 @@ function UI() {
 
   $("#control").append(labCameraPositionScalar);
 
-  $("#inputRange_cameraPositionScalar").on("input", function() {
+  $("#inputRange_cameraPositionScalar").on("input", function () {
     $(pValue_2).text(parseFloat($(this).val()));
     screensaver.setCameraScalar(parseFloat($(this).val()));
   });
@@ -132,7 +133,7 @@ function UI() {
   $(labMirror).append(inputCheckbox_mirror);
   $("#control").append(labMirror);
 
-  $("#inputCheckbox_mirror").change(function() {
+  $("#inputCheckbox_mirror").change(function () {
     screensaver.setMirror();
   });
 
@@ -146,7 +147,7 @@ function UI() {
   $(labHemisphereLight).append(inputCheckbox_hLight);
   $("#control").append(labHemisphereLight);
 
-  $("#inputCheckbox_hLight").change(function() {
+  $("#inputCheckbox_hLight").change(function () {
     screensaver.setHemisphereLight();
   });
 
@@ -157,18 +158,28 @@ function UI() {
   $(labBackgroundColor).append(blackDiv, whiteDiv);
   $("#control").append(labBackgroundColor);
 
-  $("#blackDiv").on('click', function() {
+  $("#blackDiv").on('click', function () {
     $(this).css('border', '2px solid white');
     $("#whiteDiv").css('border', '2px solid gray');
 
     screensaver.setBackgroundColor("black");
   });
 
-  $("#whiteDiv").on('click', function() {
+  $("#whiteDiv").on('click', function () {
     $(this).css('border', '2px solid black');
     $("#blackDiv").css('border', '2px solid gray');
 
     screensaver.setBackgroundColor("white");
+  });
+
+
+  //##########Update settings from storage##############//
+
+  //console.log($("option:contains('Eliptical move')"))
+  $("option").each(function (index) {
+    if (this.innerText == "Elyptical move") {
+      console.log(this)
+    }
   });
 
   //##########To animations############//
@@ -237,10 +248,10 @@ function UI() {
     var buttonRefreshDots = $('<button>')
       .attr('id', 'buttonRefreshDots')
       .text('Refresh')
-      .on('click', function() {
+      .on('click', function () {
         var rotationAxisArray = [];
 
-        $.each($('.axisCheckbox:checked'), function(key, value) {
+        $.each($('.axisCheckbox:checked'), function (key, value) {
           rotationAxisArray.push($(value).val());
         });
         var dir = $("input[name='dir']:checked").val();
