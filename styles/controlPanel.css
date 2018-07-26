@@ -26,16 +26,21 @@ html {
 }
 
 audio{
-  padding: 15px;
+  margin-top: 20px;
   width: 250px;
 }
 
-#control p {
+#control #ptitle {
   font-size: 110%;
+  font-weight: bold;
+  margin: 10px;
+  color:#f58220;
+  font-style: unset;
+  font-variant-caps: small-caps;
 }
 
 #control select {
-  margin: 30px;
+  margin: 20px;
 }
 
 #control label {
@@ -100,10 +105,6 @@ audio{
 #rotationDirectionFieldset{
   justify-content: center;
 }
-
-/* #axisFieldset, #rotationDirectionFieldset{
-  width: 140px;
-} */
 
 #settingsDiv #axisFieldset label{
   width: 26px;

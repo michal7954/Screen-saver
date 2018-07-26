@@ -21,13 +21,11 @@ function Screensaver() {
         clipBias: 0.003,
         textureWidth: 3000,
         textureHeight: 3000,
-        //color: 0x000000,
         recursion: 1,
         shininess: 20,
       });
       groundMirror.position.y = -200;
       groundMirror.rotateX(-Math.PI / 2);
-      //groundMirror.receiveShadow = true;
       scene.add(groundMirror);
     } else {
       scene.remove(groundMirror);
@@ -56,12 +54,12 @@ function Screensaver() {
     }
   };
 
-  //animations
+  //animations methods
+
   this.setToRandomMove = () => {
     for (let dot of dotsArray) {
       dot.resetToRandomMove();
     }
-
     currentAnimation = "randomMove";
   };
 
@@ -69,7 +67,6 @@ function Screensaver() {
     for (let dot of dotsArray) {
       dot.resetToElypticalMove(axisArray, direction);
     }
-
     currentAnimation = "eliptycalMove";
   };
 
@@ -77,7 +74,6 @@ function Screensaver() {
     for (let dot of dotsArray) {
       dot.resetToFreeFallMove();
     }
-
     currentAnimation = "freeFallMove";
   };
 
@@ -93,13 +89,11 @@ function Screensaver() {
   var dotGeometryMaterial_1, dotGeometryMaterial_2;
 
   //objects
-  var axes; //na razie
+  //var axes;
 
   var logotype, logotypeContainer;
   var light, hemisphereLight = false;
   var groundMirror = false;
-
-  //var parent = new THREE.Object3D();
 
   var dotsArray = [];
 

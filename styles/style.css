@@ -32,4 +32,7 @@ html, body {
   left: 0;
   bottom: 0;
   position: absolute;
+  background-image: url("../images/settingsIcon.png");
+  background-size: 40px 40px;
+  background-repeat: no-repeat;
 }

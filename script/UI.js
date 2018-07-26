@@ -1,22 +1,23 @@
 function UI() {
-  //screensaver
+  //screensaver object reference
   var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
 
-  $(window).on("beforeunload", function() {
+  //controlPanel window on before close event
+  $(window).on("beforeunload", function(e) {
     window.opener.jQuery("#controlPanelDiv").css({
       'display': 'flex'
     });
   });
 
   //##############Title################//
-  var pConfigurationPanel = $('<p>');
+  var pConfigurationPanel = $('<p>').attr('id', 'ptitle');
   $(pConfigurationPanel).html("<p><b>Configutation panel</b></p>");
-  $("#control").append(pConfigurationPanel);
+  $("#control").prepend(pConfigurationPanel);
 
   //##############Select################//
   var switchAnimationSelect = $('<select>');
 
-  var option = $('<option>').text("---Choose animation---");
+  var option = $('<option>').text("---Choose animation type---");
   var option_1 = $('<option>').text("Random move");
   var option_2 = $('<option>').text("Elyptical move");
   var option_3 = $('<option>').text("Free fall move");
@@ -81,6 +82,7 @@ function UI() {
     screensaver.setCameraRotationType($(this).val());
   });
 
+
   //logotypeRotationAngle
   var labCameraRotationSpeed = $('<label>').text("Camera rotation speed : ");
   var inputRange_logotypeRotationAngle = $('<input>');
@@ -103,6 +105,7 @@ function UI() {
     $(pValue_1).text(parseFloat($(this).val()));
     screensaver.setLogotypeRotationAngle(parseFloat($(this).val()));
   });
+
 
   //camera positions
   var labCameraPositionScalar = $('<label>').text("Camera distance : ");
@@ -128,6 +131,7 @@ function UI() {
     screensaver.setCameraScalar(parseFloat($(this).val()));
   });
 
+
   //mirror
   var labMirror = $('<label>').text("Mirror : ");
   var inputCheckbox_mirror = $('<input>');
@@ -141,6 +145,7 @@ function UI() {
   $("#inputCheckbox_mirror").change(function() {
     screensaver.setMirror();
   });
+
 
   //hemisphereLight
   var labHemisphereLight = $('<label>').text("Hemisphere light : ");
@@ -156,6 +161,7 @@ function UI() {
     screensaver.setHemisphereLight();
   });
 
+
   //background color
   var labBackgroundColor = $('<label>').text("Background : ");
   var blackDiv = $('<div>').attr('id', "blackDiv");
@@ -164,16 +170,14 @@ function UI() {
   $("#control").append(labBackgroundColor);
 
   $("#blackDiv").on('click', function() {
-    $(this).css('border', '2px solid white');
+    $(this).css('border', '2px solid #f58220');
     $("#whiteDiv").css('border', '2px solid gray');
-
     screensaver.setBackgroundColor("black");
   });
 
   $("#whiteDiv").on('click', function() {
-    $(this).css('border', '2px solid black');
+    $(this).css('border', '2px solid #f58220');
     $("#blackDiv").css('border', '2px solid gray');
-
     screensaver.setBackgroundColor("white");
   });
 
@@ -202,9 +206,7 @@ function UI() {
 
       var axisCheckbox = $('<input>')
         .val(rotationAxisArray[i])
-        .attr({
-          'type': 'checkbox'
-        })
+        .attr('type', 'checkbox')
         .addClass('axisCheckbox');
 
       axisLabel.append(axisCheckbox);
