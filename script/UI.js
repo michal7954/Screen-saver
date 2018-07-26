@@ -3,6 +3,7 @@ function UI() {
   var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
 
   $(window).on("beforeunload", function () {
+    saveSettings();
     window.opener.jQuery("#controlPanelDiv").css({
       'display': 'flex'
     });
@@ -52,8 +53,8 @@ function UI() {
 
   //camera rotation type
   var labCameraRotationType = $('<label>').text("Camera rotation type : ").attr('id', 'labCameraRotationType');
-  var inputRadio_cameraRotationType_1 = $('<input>'),
-    inputRadio_cameraRotationType_2 = $('<input>');
+  var inputRadio_cameraRotationType_1 = $('<input>').class('inputCameraRotationType'),
+    inputRadio_cameraRotationType_2 = $('<input>').class('inputCameraRotationType');
 
   var labCameraRotationType_1 = $('<label>').text("Type 1");
   $(inputRadio_cameraRotationType_1).attr({
@@ -273,9 +274,10 @@ function UI() {
     $("#settingsDiv").empty();
   }
 
-  this.saveSettings = function () {
+  function saveSettings() {
     var data = {
       'currentAnimation': $("#switchAnimationSelect").val(),
+      'cameraRotationType': $('.cameraRotationType[selected=selected]').val()
     }
 
     localStorage.setItem("settings", data);

@@ -37,5 +37,4 @@ openWin();
 
 $(window).on("beforeunload", function () {
   controlPanelWindow.close();
-  controlPanelWindow.ui.saveSettings();
 });
