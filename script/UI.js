@@ -2,6 +2,18 @@ function UI() {
   //screensaver
   var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
 
+  var data = {
+    currentAnimation: '---Choose animation---',
+    cameraRotationType: 'type_1',
+    cameraRotationSpeed: 0.005,
+    cameraDistance: 1000,
+    mirror: false,
+    hemisphereLight: false,
+    backgroundColor: 'black',
+    rotationAxis: ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'],
+    direction: 0,
+  }
+
   $(window).on("beforeunload", function () {
     saveSettings();
     window.opener.jQuery("#controlPanelDiv").css({
@@ -32,14 +44,17 @@ function UI() {
       case "Random move":
         setSettingsToRandomMove();
         screensaver.setToRandomMove();
+        data.currentAnimation = 'Random move'
         break;
       case "Elyptical move":
         setSettingsToElypticalMove();
         screensaver.setToElypticalMove();
+        data.currentAnimation = 'Elyptical move'
         break;
       case "Free fall move":
         setSettingsToFreeFallMove();
         screensaver.setToFreeFallMove();
+        data.currentAnimation = 'Free fall move'
         break;
     }
   });
@@ -53,8 +68,8 @@ function UI() {
 
   //camera rotation type
   var labCameraRotationType = $('<label>').text("Camera rotation type : ").attr('id', 'labCameraRotationType');
-  var inputRadio_cameraRotationType_1 = $('<input>').class('inputCameraRotationType'),
-    inputRadio_cameraRotationType_2 = $('<input>').class('inputCameraRotationType');
+  var inputRadio_cameraRotationType_1 = $('<input>')
+  inputRadio_cameraRotationType_2 = $('<input>')
 
   var labCameraRotationType_1 = $('<label>').text("Type 1");
   $(inputRadio_cameraRotationType_1).attr({
@@ -80,6 +95,7 @@ function UI() {
 
   $("#labCameraRotationType input").on("change", function () {
     screensaver.setCameraRotationType($(this).val());
+    data.cameraRotationType = $(this).val()
   });
 
   //logotypeRotationAngle
@@ -104,6 +120,7 @@ function UI() {
   $("#inputRange_logotypeRotationAngle").on("input", function () {
     $(pValue_1).text(parseFloat($(this).val()));
     screensaver.setLogotypeRotationAngle(parseFloat($(this).val()));
+    data.cameraRotationSpeed = parseFloat($(this).val())
   });
 
   //camera positions
@@ -128,6 +145,7 @@ function UI() {
   $("#inputRange_cameraPositionScalar").on("input", function () {
     $(pValue_2).text(parseFloat($(this).val()));
     screensaver.setCameraScalar(parseFloat($(this).val()));
+    data.cameraDistance = parseFloat($(this).val())
   });
 
   //mirror
@@ -142,6 +160,7 @@ function UI() {
 
   $("#inputCheckbox_mirror").change(function () {
     screensaver.setMirror();
+    data.mirror = $(this)[0].checked;
   });
 
   //hemisphereLight
@@ -156,6 +175,7 @@ function UI() {
 
   $("#inputCheckbox_hLight").change(function () {
     screensaver.setHemisphereLight();
+    data.hemisphereLight = $(this)[0].checked;
   });
 
   //background color
@@ -170,6 +190,7 @@ function UI() {
     $("#whiteDiv").css('border', '2px solid gray');
 
     screensaver.setBackgroundColor("black");
+    data.backgroundColor = 'black';
   });
 
   $("#whiteDiv").on('click', function () {
@@ -177,16 +198,17 @@ function UI() {
     $("#blackDiv").css('border', '2px solid gray');
 
     screensaver.setBackgroundColor("white");
+    data.backgroundColor = 'white'
   });
 
 
   //##########Update settings from storage##############//
 
   //console.log($("option:contains('Eliptical move')"))
-  console.log(settings)
+  //console.log(settings)
   $("option").each(function (index) {
     if (this.innerText == "Elyptical move") {
-      console.log(this)
+      //console.log(this)
     }
   });
 
@@ -266,6 +288,8 @@ function UI() {
 
         screensaver.setToElypticalMove(rotationAxisArray, dir);
 
+        data.rotationAxis = rotationAxisArray
+        data.direction = dir
       });
     $("#settingsDiv").append(buttonRefreshDots);
   }
@@ -275,10 +299,7 @@ function UI() {
   }
 
   function saveSettings() {
-    var data = {
-      'currentAnimation': $("#switchAnimationSelect").val(),
-      'cameraRotationType': $('.cameraRotationType[selected=selected]').val()
-    }
+
 
     localStorage.setItem("settings", data);
   }
