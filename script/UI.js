@@ -12,10 +12,18 @@ function UI() {
     backgroundColor: 'black',
     rotationAxis: ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'],
     direction: 0,
+  };
+
+  //restoring data from local storage
+  var dataStoraged = JSON.parse(localStorage.getItem("settings"));
+  console.log(dataStoraged);
+
+  if (dataStoraged !== null) {
+    var data = dataStoraged;
   }
 
   $(window).on("beforeunload", function () {
-    saveSettings();
+    saveLocalStorageData();
     window.opener.jQuery("#controlPanelDiv").css({
       'display': 'flex'
     });
@@ -38,8 +46,12 @@ function UI() {
   $(switchAnimationSelect).append(option, option_1, option_2, option_3);
   $("#control").append(switchAnimationSelect);
 
-  $("#switchAnimationSelect").change(function () { //select on redo eg "2" also
-    selectVal = $(this).val();
+  $("#switchAnimationSelect").change(function () {
+    switchAnimationSelectOnChange()
+  });
+
+  function switchAnimationSelectOnChange() { //select on redo eg "2" also
+    selectVal = $("#switchAnimationSelect").val();
     switch (selectVal) {
       case "Random move":
         setSettingsToRandomMove();
@@ -47,6 +59,8 @@ function UI() {
         data.currentAnimation = 'Random move'
         break;
       case "Elyptical move":
+        console.log("deas");
+
         setSettingsToElypticalMove();
         screensaver.setToElypticalMove();
         data.currentAnimation = 'Elyptical move'
@@ -57,7 +71,7 @@ function UI() {
         data.currentAnimation = 'Free fall move'
         break;
     }
-  });
+  };
 
   //##############Settings################//
   var settingsDiv = $('<div>');
@@ -202,17 +216,22 @@ function UI() {
   });
 
 
-  //##########Update settings from storage##############//
+  //##########Update settings from storage##############///
+  // $("option").each(function (index) {
+  //   if (this.innerText == data.currentAnimation) {
+  //     $(this).attr('selected', 'selected')
+  //   }
+  // });
 
-  //console.log($("option:contains('Eliptical move')"))
-  //console.log(settings)
-  $("option").each(function (index) {
-    if (this.innerText == "Elyptical move") {
-      //console.log(this)
-    }
-  });
+  $("#switchAnimationSelect").val(data.currentAnimation);
+  switchAnimationSelectOnChange();
 
-  //##########To animations############//
+  //##########To animations############/
+
+  function saveLocalStorageData() {
+    console.log(JSON.stringify(data));
+    localStorage.setItem("settings", JSON.stringify(data));
+  }
 
   function setSettingsToRandomMove() {
     $("#settingsDiv").empty();
