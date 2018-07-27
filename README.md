@@ -26,13 +26,15 @@ Zastrzeżenia dotyczące funkcjonowania aplikacji:
 
 Funkcjonalności panelu konfiguracyjnego:
 
-1. Wybór jednego z dwóch typów obrotu kamery wokół sceny
-2. Regulacja prędkości obrotu kamery wokół sceny
-3. Regulacja odległości kamery od centrum sceny
-4. Włączenie/wyłączenie efektu lustra
-5. Dodanie/usunięcie dodatkowego światła globalnego - hemisphere
-6. Wybór koloru tła sceny
-7. Aplikacja posiada trzy główne typy ruchu obiektów wokół logo. W ramach poszczególnych typów pojawiają się stosowne kontrolki umożliwiające sterowanie parametrami animacji:
-    - Random move
-    - Eliptical move: wybór osi, w których poruszają się obiekty oraz zmiana kierunku obrotu wszystkich elementów wokół logo, 
-    - Free fall move: 
+1. Pogląd i manipulacja puszczanym audio
+2. Wybór typu animacji
+	2.1 Aplikacja posiada trzy główne typy ruchu obiektów wokół logo. W ramach poszczególnych typów pojawiają się stosowne kontrolki umożliwiające sterowanie 		parametrami animacji:
+	    - Random move : regulacja prędkości poruszania się obiektów wokół logo, regulacja odległości obiektów od centrum sceny,
+	    - Eliptical move: wybór osi, w których poruszają się obiekty oraz zmiana kierunku obrotu wszystkich elementów wokół logo, 
+	    - Free fall move: wybór typu ruchu spadania obiektów (odbijający, rain drop)
+3. Wybór jednego z dwóch typów obrotu kamery wokół sceny
+4. Regulacja prędkości obrotu kamery wokół sceny
+5. Regulacja odległości kamery od centrum sceny
+6. Włączenie/wyłączenie efektu lustra
+7. Dodanie/usunięcie dodatkowego światła globalnego - hemisphere
+8. Wybór koloru tła sceny
