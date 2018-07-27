@@ -1,6 +1,5 @@
 //main variables of two windows
-var settings = localStorage.getItem("settings")
-var screensaver = new Screensaver();
+var settings = localStorage.getItem("settings");
 var controlPanelWindow;
 var screensaver = new Screensaver(); //create Screensaver
 
@@ -32,6 +31,6 @@ function restoreDataFromLocalStorage() {
 }
 
 //screensaver window on before close event
-$(window).on("beforeunload", function () {
+$(window).on("beforeunload", function() {
   controlPanelWindow.close();
 });
