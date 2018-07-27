@@ -1,6 +1,7 @@
 function UI() {
   //screensaver object reference
   var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
+  screensaver.addStats($("#control"));
 
   var data = {
     currentAnimation: '---Choose animation---',
@@ -206,14 +207,14 @@ function UI() {
   $("#control").append(labBackgroundColor);
 
   $("#blackDiv").on('click', function() {
-    $(this).css('border', '2px solid white');
+    $(this).css('border', '2px solid #f58220');
     $("#whiteDiv").css('border', '2px solid gray');
     screensaver.setBackgroundColor("black");
     data.backgroundColor = 'black';
   });
 
   $("#whiteDiv").on('click', function() {
-    $(this).css('border', '2px solid black');
+    $(this).css('border', '2px solid #f58220');
     $("#blackDiv").css('border', '2px solid gray');
     screensaver.setBackgroundColor("white");
     data.backgroundColor = 'white';

@@ -2,6 +2,10 @@ function Screensaver() {
 
   //##############Public methods################//
 
+  this.addStats = (destination) => {
+    destination.append(stats.dom);
+  };
+
   this.setCameraRotationType = (type) => {
     cameraRotationType = type;
   };
@@ -116,9 +120,6 @@ function Screensaver() {
   var dotsArray = [];
 
   //others
-  // var width = window.innerWidth;
-  // var height = window.innerHeight;
-  // console.log("window inner W&H", width, height); //?
   var width = $("#root")[0].clientWidth;
   var height = $("#root")[0].clientHeight;
 
@@ -144,9 +145,9 @@ function Screensaver() {
       0.1,
       10000
     );
-    camera.position.set(500, 500, 500); //if currentAnimation === ...
+    camera.position.set(500, 500, 500);
     camera.lookAt(scene.position);
-    camera.fov = 45; //ckeck
+    camera.fov = 45;
     camera.updateProjectionMatrix();
 
     //renderer
@@ -174,7 +175,7 @@ function Screensaver() {
     //stats
     stats = new Stats();
     stats.showPanel(0);
-    $('#control').append(stats.dom);
+
   }
 
   initEngine();
