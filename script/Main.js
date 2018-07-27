@@ -1,13 +1,24 @@
 //main variables
+var settings = localStorage.getItem("settings")
 var screensaver = new Screensaver();
 var controlPanelWindow;
+
+// var counter = parseInt(localStorage.getItem("counter"))
+// if (!counter) {
+//   localStorage.setItem("counter", 1);
+// }
+// else {
+//   localStorage.setItem("counter", counter + 1);
+// }
+// console.log(parseInt(localStorage.getItem("counter")))
+
 
 //controlPanelDiv
 var controlPanelDiv = $('<div>');
 $(controlPanelDiv).attr({
-    'id': 'controlPanelDiv'
-  })
-  .on('click', function() {
+  'id': 'controlPanelDiv'
+})
+  .on('click', function () {
     openWin();
   })
   .css({
@@ -24,6 +35,6 @@ function openWin() {
 }
 openWin();
 
-$(window).on("beforeunload", function() {
+$(window).on("beforeunload", function () {
   controlPanelWindow.close();
 });

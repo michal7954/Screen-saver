@@ -2,8 +2,29 @@ function UI() {
   //screensaver
   var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
 
-  $(window).on("beforeunload", function() {
-    window.opener.jQuery("#controlPanelDiv").css({
+  var data = {
+    currentAnimation: '---Choose animation---',
+    cameraRotationType: 'type_1',
+    cameraRotationSpeed: 0.005,
+    cameraDistance: 1000,
+    mirror: false,
+    hemisphereLight: false,
+    backgroundColor: 'black',
+    rotationAxis: ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'],
+    direction: 0,
+  };
+
+  //restoring data from local storage
+  var dataStoraged = JSON.parse(localStorage.getItem("settings"));
+  console.log(dataStoraged);
+
+  if (dataStoraged !== null) {
+    var data = dataStoraged;
+  }
+
+  $(window).on("beforeunload", function () {
+    saveLocalStorageData();
+    window.opener.$("#controlPanelDiv").css({
       'display': 'flex'
     });
   });
@@ -25,25 +46,34 @@ function UI() {
   $(switchAnimationSelect).append(option, option_1, option_2, option_3);
   $("#control").append(switchAnimationSelect);
 
-  $("#switchAnimationSelect").change(function() { //select on redo eg "2" also
-    selectVal = $(this).val();
+  $("#switchAnimationSelect").change(function () {
+    switchAnimationSelectOnChange()
+  });
+
+  function switchAnimationSelectOnChange() { //select on redo eg "2" also
+    selectVal = $("#switchAnimationSelect").val();
     switch (selectVal) {
       case "Random move":
         setSettingsToRandomMove();
         screensaver.setToRandomMove();
+        data.currentAnimation = 'Random move'
         break;
       case "Elyptical move":
+        console.log("deas");
+
         setSettingsToElypticalMove();
         screensaver.setToElypticalMove();
+        data.currentAnimation = 'Elyptical move'
         break;
       case "Free fall move":
         setSettingsToFreeFallMove();
         screensaver.setToFreeFallMove();
+        data.currentAnimation = 'Free fall move'
         break;
     }
-  });
+  };
 
-  //##############Settings################//
+  //##############Settings div for specific type of animation################//
   var settingsDiv = $('<div>');
   $(settingsDiv).attr('id', 'settingsDiv');
   $("#control").append(settingsDiv);
@@ -52,8 +82,8 @@ function UI() {
 
   //camera rotation type
   var labCameraRotationType = $('<label>').text("Camera rotation type : ").attr('id', 'labCameraRotationType');
-  var inputRadio_cameraRotationType_1 = $('<input>'),
-    inputRadio_cameraRotationType_2 = $('<input>');
+  var inputRadio_cameraRotationType_1 = $('<input>')
+  inputRadio_cameraRotationType_2 = $('<input>')
 
   var labCameraRotationType_1 = $('<label>').text("Type 1");
   $(inputRadio_cameraRotationType_1).attr({
@@ -77,8 +107,9 @@ function UI() {
   $(labCameraRotationType).append(labCameraRotationType_1, labCameraRotationType_2);
   $("#control").append(labCameraRotationType);
 
-  $("#labCameraRotationType input").on("change", function() {
+  $("#labCameraRotationType input").on("change", function () {
     screensaver.setCameraRotationType($(this).val());
+    data.cameraRotationType = $(this).val()
   });
 
   //logotypeRotationAngle
@@ -99,9 +130,11 @@ function UI() {
 
   $("#control").append(labCameraRotationSpeed);
 
-  $("#inputRange_logotypeRotationAngle").on("input", function() {
+
+  $("#inputRange_logotypeRotationAngle").on("input", function () {
     $(pValue_1).text(parseFloat($(this).val()));
     screensaver.setLogotypeRotationAngle(parseFloat($(this).val()));
+    data.cameraRotationSpeed = parseFloat($(this).val())
   });
 
   //camera positions
@@ -123,9 +156,10 @@ function UI() {
 
   $("#control").append(labCameraPositionScalar);
 
-  $("#inputRange_cameraPositionScalar").on("input", function() {
+  $("#inputRange_cameraPositionScalar").on("input", function () {
     $(pValue_2).text(parseFloat($(this).val()));
     screensaver.setCameraScalar(parseFloat($(this).val()));
+    data.cameraDistance = parseFloat($(this).val())
   });
 
   //mirror
@@ -138,8 +172,9 @@ function UI() {
   $(labMirror).append(inputCheckbox_mirror);
   $("#control").append(labMirror);
 
-  $("#inputCheckbox_mirror").change(function() {
+  $("#inputCheckbox_mirror").change(function () {
     screensaver.setMirror();
+    data.mirror = $(this)[0].checked;
   });
 
   //hemisphereLight
@@ -152,8 +187,9 @@ function UI() {
   $(labHemisphereLight).append(inputCheckbox_hLight);
   $("#control").append(labHemisphereLight);
 
-  $("#inputCheckbox_hLight").change(function() {
+  $("#inputCheckbox_hLight").change(function () {
     screensaver.setHemisphereLight();
+    data.hemisphereLight = $(this)[0].checked;
   });
 
   //background color
@@ -163,21 +199,65 @@ function UI() {
   $(labBackgroundColor).append(blackDiv, whiteDiv);
   $("#control").append(labBackgroundColor);
 
-  $("#blackDiv").on('click', function() {
+  $("#blackDiv").on('click', function () {
     $(this).css('border', '2px solid white');
     $("#whiteDiv").css('border', '2px solid gray');
 
     screensaver.setBackgroundColor("black");
+    data.backgroundColor = 'black';
   });
 
-  $("#whiteDiv").on('click', function() {
+  $("#whiteDiv").on('click', function () {
     $(this).css('border', '2px solid black');
     $("#blackDiv").css('border', '2px solid gray');
 
     screensaver.setBackgroundColor("white");
+    data.backgroundColor = 'white'
   });
 
-  //##########To animations############//
+  //##########Update settings from storage##############///
+
+  $("#switchAnimationSelect").val(data.currentAnimation);
+  switchAnimationSelectOnChange();
+
+  $("#labCameraRotationType input[value='" + data.cameraRotationType + "']").attr('checked', 'checked');
+  screensaver.setCameraRotationType(data.cameraRotationType);
+
+  $('#inputRange_logotypeRotationAngle').val(data.cameraRotationSpeed)
+  $(pValue_1).text(data.cameraRotationSpeed);
+  screensaver.setLogotypeRotationAngle(data.cameraRotationSpeed);
+
+  $('#inputRange_cameraPositionScalar').val(data.cameraDistance)
+  $(pValue_2).text(data.cameraDistance);
+  screensaver.setCameraScalar(data.cameraDistance);
+
+  if (data.mirror) {
+    $('#inputCheckbox_mirror').prop('checked', true) // jeszcze nie testowałem tej metody ale jest ona w dokumentacji
+    screensaver.setMirror();
+  }
+
+  if (data.hemisphereLight) {
+    $('#inputCheckbox_hLight').prop('checked', true)
+    screensaver.setHemisphereLight();
+  }
+
+  if (data.backgroundColor == 'black') {
+    $('#blackDiv').css('border', '2px solid white');
+    $("#whiteDiv").css('border', '2px solid gray');
+    screensaver.setBackgroundColor("black");
+  }
+  else if (data.backgroundColor == 'white') {
+    $('#whiteDiv').css('border', '2px solid black');
+    $("#blackDiv").css('border', '2px solid gray');
+    screensaver.setBackgroundColor("white");
+  }
+
+  //##########To animations############/
+
+  function saveLocalStorageData() {
+    console.log(JSON.stringify(data));
+    localStorage.setItem("settings", JSON.stringify(data));
+  }
 
   function setSettingsToRandomMove() {
     $("#settingsDiv").empty();
@@ -207,6 +287,10 @@ function UI() {
         })
         .addClass('axisCheckbox');
 
+      if (data.rotationAxis.includes(rotationAxisArray[i])) {
+        $(axisCheckbox).attr('checked', 'checked')
+      }
+
       axisLabel.append(axisCheckbox);
       axisFieldset.append(axisLabel);
     }
@@ -214,7 +298,7 @@ function UI() {
     $("#settingsDiv").append(axisFieldset);
 
     //rotation direction
-    var rotationDirectionArray = [-1, 'Both', 1];
+    var rotationDirectionArray = [-1, 0, 1];
 
     var rotationDirectionFieldset = $('<fieldset>')
       .attr('id', 'rotationDirectionFieldset');
@@ -225,7 +309,12 @@ function UI() {
 
     for (let i = 0; i < rotationDirectionArray.length; i++) {
       var dirLabel = $('<label>')
-        .text(rotationDirectionArray[i]);
+      if (i == 1) {
+        $(dirLabel).text('Both');
+      }
+      else {
+        $(dirLabel).text(rotationDirectionArray[i]);
+      }
 
       var dirRadio = $('<input>')
         .val(rotationDirectionArray[i])
@@ -234,25 +323,29 @@ function UI() {
           'type': 'radio'
         });
 
+      if (data.direction == rotationDirectionArray[i]) {
+        $(dirRadio).attr('checked', 'checked')
+      }
+
       dirLabel.append(dirRadio);
       rotationDirectionFieldset.append(dirLabel);
     }
     $("#settingsDiv").append(rotationDirectionFieldset);
+    screensaver.setToElypticalMove(data.rotationAxis, data.direction);
 
     //refresh button
     var buttonRefreshDots = $('<button>')
       .attr('id', 'buttonRefreshDots')
       .text('Refresh')
-      .on('click', function() {
+      .on('click', function () {
         var rotationAxisArray = [];
-
-        $.each($('.axisCheckbox:checked'), function(key, value) {
+        $.each($('.axisCheckbox:checked'), function (key, value) {
           rotationAxisArray.push($(value).val());
         });
         var dir = $("input[name='dir']:checked").val();
-
         screensaver.setToElypticalMove(rotationAxisArray, dir);
-
+        data.rotationAxis = rotationAxisArray
+        data.direction = dir
       });
     $("#settingsDiv").append(buttonRefreshDots);
   }
@@ -260,5 +353,4 @@ function UI() {
   function setSettingsToFreeFallMove() {
     $("#settingsDiv").empty();
   }
-
 }
