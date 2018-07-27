@@ -33,6 +33,10 @@ function Screensaver() {
     }
   };
 
+  this.isMirrorSet = () => {
+    return groundMirror ? true : false;
+  };
+
   this.setHemisphereLight = () => {
     if (!hemisphereLight) {
       hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
@@ -41,6 +45,10 @@ function Screensaver() {
       scene.remove(hemisphereLight);
       hemisphereLight = false;
     }
+  };
+
+  this.isHemisphereLightSet = () => {
+    return hemisphereLight ? true : false;
   };
 
   this.setBackgroundColor = (color) => {
@@ -157,7 +165,7 @@ function Screensaver() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
       renderer.setSize(width, height);

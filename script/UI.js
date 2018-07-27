@@ -23,7 +23,7 @@ function UI() {
   }
 
   //controlPanel window on before close event
-  $(window).on("beforeunload", function() {
+  $(window).on("beforeunload", function () {
     saveLocalStorageData();
     window.opener.$("#controlPanelDiv").css({
       'display': 'flex'
@@ -48,7 +48,7 @@ function UI() {
   $(switchAnimationSelect).append(option, option_1, option_2, option_3);
   $("#control").append(switchAnimationSelect);
 
-  $("#switchAnimationSelect").change(function() {
+  $("#switchAnimationSelect").change(function () {
     switchAnimationSelectOnChange();
   });
 
@@ -108,7 +108,7 @@ function UI() {
   $(labCameraRotationType).append(labCameraRotationType_1, labCameraRotationType_2);
   $("#control").append(labCameraRotationType);
 
-  $("#labCameraRotationType input").on("change", function() {
+  $("#labCameraRotationType input").on("change", function () {
     screensaver.setCameraRotationType($(this).val());
     data.cameraRotationType = $(this).val();
   });
@@ -133,7 +133,7 @@ function UI() {
   $("#control").append(labCameraRotationSpeed);
 
 
-  $("#inputRange_logotypeRotationAngle").on("input", function() {
+  $("#inputRange_logotypeRotationAngle").on("input", function () {
     $(pValue_1).text(parseFloat($(this).val()));
     screensaver.setLogotypeRotationAngle(parseFloat($(this).val()));
     data.cameraRotationSpeed = parseFloat($(this).val());
@@ -159,7 +159,7 @@ function UI() {
 
   $("#control").append(labCameraPositionScalar);
 
-  $("#inputRange_cameraPositionScalar").on("input", function() {
+  $("#inputRange_cameraPositionScalar").on("input", function () {
     $(pValue_2).text(parseFloat($(this).val()));
     screensaver.setCameraScalar(parseFloat($(this).val()));
     data.cameraDistance = parseFloat($(this).val());
@@ -176,7 +176,7 @@ function UI() {
   $(labMirror).append(inputCheckbox_mirror);
   $("#control").append(labMirror);
 
-  $("#inputCheckbox_mirror").change(function() {
+  $("#inputCheckbox_mirror").change(function () {
     screensaver.setMirror();
     data.mirror = $(this)[0].checked;
   });
@@ -192,7 +192,7 @@ function UI() {
   $(labHemisphereLight).append(inputCheckbox_hLight);
   $("#control").append(labHemisphereLight);
 
-  $("#inputCheckbox_hLight").change(function() {
+  $("#inputCheckbox_hLight").change(function () {
     screensaver.setHemisphereLight();
     data.hemisphereLight = $(this)[0].checked;
   });
@@ -205,14 +205,14 @@ function UI() {
   $(labBackgroundColor).append(blackDiv, whiteDiv);
   $("#control").append(labBackgroundColor);
 
-  $("#blackDiv").on('click', function() {
+  $("#blackDiv").on('click', function () {
     $(this).css('border', '2px solid white');
     $("#whiteDiv").css('border', '2px solid gray');
     screensaver.setBackgroundColor("black");
     data.backgroundColor = 'black';
   });
 
-  $("#whiteDiv").on('click', function() {
+  $("#whiteDiv").on('click', function () {
     $(this).css('border', '2px solid black');
     $("#blackDiv").css('border', '2px solid gray');
     screensaver.setBackgroundColor("white");
@@ -236,13 +236,17 @@ function UI() {
   screensaver.setCameraScalar(data.cameraDistance);
 
   if (data.mirror) {
-    $('#inputCheckbox_mirror').prop('checked', true); // jeszcze nie testowałem tej metody ale jest ona w dokumentacji
-    screensaver.setMirror();
+    $('#inputCheckbox_mirror').prop('checked', true);
+    if (!screensaver.isMirrorSet()) {
+      screensaver.setMirror();
+    }
   }
 
   if (data.hemisphereLight) {
     $('#inputCheckbox_hLight').prop('checked', true);
-    screensaver.setHemisphereLight();
+    if (!screensaver.isHemisphereLightSet()) {
+      screensaver.setHemisphereLight();
+    }
   }
 
   if (data.backgroundColor == 'black') {
@@ -282,7 +286,7 @@ function UI() {
     $(labDotsSpeed).append(inputRange_dotsSpeed, pValue_3);
     $("#settingsDiv").append(labDotsSpeed);
 
-    $("#inputRange_dotsSpeed").on("input", function() {
+    $("#inputRange_dotsSpeed").on("input", function () {
       $(pValue_3).text(parseFloat($(this).val()));
       screensaver.setDotsSpeed(20 - parseFloat($(this).val()) + 1);
     });
@@ -304,7 +308,7 @@ function UI() {
     $(labMaxDotsRadius).append(inputRange_maxDotsRadius, pValue_4);
     $("#settingsDiv").append(labMaxDotsRadius);
 
-    $("#inputRange_maxDotsRadius").on("input", function() {
+    $("#inputRange_maxDotsRadius").on("input", function () {
       $(pValue_4).text(parseFloat($(this).val()));
       screensaver.setMaxDotsRadius(parseFloat($(this).val()));
     });
@@ -381,9 +385,9 @@ function UI() {
     var buttonRefreshDots = $('<button>')
       .attr('id', 'buttonRefreshDots')
       .text('Refresh')
-      .on('click', function() {
+      .on('click', function () {
         var rotationAxisArray = [];
-        $.each($('.axisCheckbox:checked'), function(key, value) {
+        $.each($('.axisCheckbox:checked'), function (key, value) {
           rotationAxisArray.push($(value).val());
         });
         var dir = $("input[name='dir']:checked").val();
@@ -423,7 +427,7 @@ function UI() {
     $(labFreeFallMoveType).append(labFreeFallMoveType_bouncing, labFreeFallMoveType_rainDrop);
     $("#settingsDiv").append(labFreeFallMoveType);
 
-    $("#labFreeFallMoveType input").on("input", function() {
+    $("#labFreeFallMoveType input").on("input", function () {
       screensaver.setFreeFallMoveType($(this).val());
     });
   }
