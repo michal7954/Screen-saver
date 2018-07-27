@@ -18,9 +18,16 @@ function openControlPanelWindow() {
     'display': 'none'
   });
   //load options to control panel from local storage
+  restoreDataFromLocalStorage();
 }
 openControlPanelWindow();
 
+//restoring data from localStorage
+function restoreDataFromLocalStorage() {
+  var currentAnimation = localStorage.getItem('currentAnimation');
+
+  $("#switchAnimationSelect").val = currentAnimation;
+}
 
 //screensaver window on before close event
 $(window).on("beforeunload", function() {

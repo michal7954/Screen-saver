@@ -7,7 +7,7 @@ function Screensaver() {
   };
 
   this.setLogotypeRotationAngle = (angle) => {
-    logotypeRotationAngle = angle;
+    cameraRotationSpeed = angle;
   };
 
   this.setCameraScalar = (scalar) => {
@@ -63,6 +63,18 @@ function Screensaver() {
     currentAnimation = "randomMove";
   };
 
+  this.setDotsSpeed = (speed) => {
+    for (let dot of dotsArray) {
+      dot.setSpeed(speed);
+    }
+  };
+
+  this.setMaxDotsRadius = (radius) => {
+    for (let dot of dotsArray) {
+      dot.setRandomMoveRadius(radius);
+    }
+  };
+
   this.setToElypticalMove = (axisArray, direction) => {
     for (let dot of dotsArray) {
       dot.resetToElypticalMove(axisArray, direction);
@@ -75,6 +87,12 @@ function Screensaver() {
       dot.resetToFreeFallMove();
     }
     currentAnimation = "freeFallMove";
+  };
+
+  this.setFreeFallMoveType = (moveType) => {
+    for (let dot of dotsArray) {
+      dot.setFreeFallMoveType(moveType);
+    }
   };
 
   //###########End of public methods############//
@@ -104,17 +122,10 @@ function Screensaver() {
   var width = $("#root")[0].clientWidth;
   var height = $("#root")[0].clientHeight;
 
-  // var center = {
-  //   x: 9.279999732971191,
-  //   y: 165.5,
-  //   z: -10
-  // };
-  //get it from ilab...
-
   //screensaver
   var currentAnimation = null;
 
-  var logotypeRotationAngle = 0.005;
+  var cameraRotationSpeed = 0.005;
   var currentLogotypeRotationAngle = 0;
   var cameraScalar = 1000;
   var cameraRotationType = "type_1";
@@ -239,7 +250,7 @@ function Screensaver() {
       scene.add(light);
     }
 
-    //dots : create in some animations(?)
+    //dots
     for (var i = 0; i < 200; i++) {
       var materialNum = Math.floor(Math.random() * 2 + 1);
       var material = materialNum === 1 ? dotGeometryMaterial_1 : dotGeometryMaterial_2;
@@ -251,32 +262,14 @@ function Screensaver() {
       scene.add(dotContainer);
     }
 
-    //orbits --> not as useful
-    // var radius = 320,
-    //   segments = 64,
-    //   material = new THREE.LineBasicMaterial({ color: 0xff00ff }),
-    //   geometry = new THREE.CircleGeometry(radius, segments);
-
-    // geometry.vertices.shift();
-    // var circle = new THREE.LineLoop(geometry, material)
-    // circle.position.x = 0;
-    // circle.position.y = 0;
-    // circle.position.z = 0;    // circle.position
-    // //scene.add(circle)
-
-    // var circle2 = circle.clone()
-    // circle2.rotateX(Math.PI / 2)
-    // //scene.add(circle2)
-
-    // var circle3 = circle.clone()
-    // circle3.rotateY(Math.PI / 2)
-    //scene.add(circle3)
   }
 
   initObjects();
 
   function render() {
     stats.begin();
+
+    var timer = Date.now() * 0.01;
 
     light.position.set(camera.position.x, camera.position.y, camera.position.z);
     light.lookAt(scene.position);
@@ -291,7 +284,7 @@ function Screensaver() {
       camera.position.z = Math.cos(currentLogotypeRotationAngle) * cameraScalar;
     }
     camera.lookAt(scene.position);
-    if (currentLogotypeRotationAngle <= Math.pow(2, 53)) currentLogotypeRotationAngle += logotypeRotationAngle;
+    if (currentLogotypeRotationAngle <= Math.pow(2, 53)) currentLogotypeRotationAngle += cameraRotationSpeed;
     else currentLogotypeRotationAngle = 0;
 
     if (currentAnimation === "randomMove") {
@@ -304,7 +297,7 @@ function Screensaver() {
       }
     } else if (currentAnimation === "freeFallMove") {
       for (let dot of dotsArray) {
-        dot.setPositionToFreeFall();
+        dot.setPositionToFreeFall(timer);
       }
     }
 
@@ -314,5 +307,5 @@ function Screensaver() {
   }
   render();
 
-  this.setToRandomMove();
+  this.setToRandomMove(); //do according to currentAnimation
 }

@@ -13,6 +13,16 @@ function Dot(id, material) {
 
   //randomMove
   var trajectory = Math.floor(Math.random() * 3 + 1);
+  var dotSpeed = 10;
+  var randomMoveRadius = 600;
+
+
+  //freeFallMove
+  var freeFallMovPosX = Math.floor(Math.random() * (1200) - 600); //<-600, 600>
+  var freeFallMovPosY = Math.floor(Math.random() * (600 + 184) - 184); //<-184, 600>
+  var freeFallMovPosZ = Math.floor(Math.random() * (1200) - 600); //<-600, 600>
+  var timerScalar = (Math.random() + 0.05) * 0.09;
+  var freeFallMoveType = "bouncing";
 
   //elypticalMove
   var axisArray = ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'];
@@ -37,9 +47,8 @@ function Dot(id, material) {
       axis = axisArray[Math.floor(Math.random() * axisArray.length)];
 
     if (dir == 1 || dir == -1) {
-      direction = dir
-    }
-    else {
+      direction = dir;
+    } else {
       var directionBool = Math.floor(Math.random() * 2);
       if (directionBool)
         direction = 1;
@@ -84,11 +93,10 @@ function Dot(id, material) {
     geometry.center();
     dotMesh.rotation.set(0, 0, 0);
 
-    let posY = Math.floor(Math.random() * (600 + 295) - 295); //<-295, 600>
-    dotMesh.position.set(Math.random() * 1200 - 600, posY, Math.random() * 1200 - 600);
+    dotMesh.position.set(freeFallMovPosX, freeFallMovPosY, freeFallMovPosZ);
   };
 
-  this.setPositionToElypticalMove = function () {
+  this.setPositionToElypticalMove = function() {
     switch (axis) {
       case 'x':
         dotMesh.rotateX(direction * angle);
@@ -126,37 +134,60 @@ function Dot(id, material) {
     }
   };
 
-  this.setPositionToFreeFall = function () { //set pos y to > 0
-    if (dotMesh.position.y <= -145) {
-      //todo : clock reset
-      time = 0;
-      var posY = Math.floor(Math.random() * (600 + 295) - 295);
-      dotMesh.position.y = posY;
-    } else {
-      // dotMesh.position.y = dotMesh.position.y - (9.8 * clock.getElapsedTime() * clock.getElapsedTime() / 2);
-      time += 0.006;
-      dotMesh.position.y = dotMesh.position.y - (9.8 * time * time);
+  this.setPositionToFreeFall = function(timer) { //set pos y to > 0
+    if (freeFallMoveType === "bouncing") {
+
+      dotMesh.position.set(
+        freeFallMovPosX,
+        Math.abs(Math.cos(timer * timerScalar)) * freeFallMovPosY + 5,
+        freeFallMovPosZ
+      );
+
+    } else if (freeFallMoveType === "rainDrop") {
+
+      if (dotMesh.position.y <= -184) { //reached to floor or under => start dot bounce
+        //todo : clock reset
+        time = 0;
+        dotMesh.position.y = freeFallMovPosY;
+      } else { //reached the ceiling ;) => start dot fall
+        // dotMesh.position.y = dotMesh.position.y - (9.8 * clock.getElapsedTime() * clock.getElapsedTime() / 2);
+        time += 0.006;
+        dotMesh.position.y = dotMesh.position.y - (9.8 * time * time);
+      }
+
     }
   };
 
-  this.setPositionToRandomMove = function () {
+  this.setFreeFallMoveType = function(moveType) {
+    freeFallMoveType = moveType;
+  };
+
+  this.setPositionToRandomMove = function() {
     switch (trajectory) {
       case 1:
-        dotMesh.position.x = 600 * Math.cos(clock.getElapsedTime() / 10 + id);
-        dotMesh.position.y = 600 * Math.sin(clock.getElapsedTime() / 10 + id * 1.1); //<-600, 600>
+        dotMesh.position.x = randomMoveRadius * Math.cos(clock.getElapsedTime() / dotSpeed + id);
+        dotMesh.position.y = randomMoveRadius * Math.sin(clock.getElapsedTime() / dotSpeed + id * 1.1); //<-600, 600>
         break;
       case 2:
-        dotMesh.position.x = 600 * Math.cos(clock.getElapsedTime() / 10 + id);
-        dotMesh.position.z = 600 * Math.sin(clock.getElapsedTime() / 10 + id * 1.1);
+        dotMesh.position.x = randomMoveRadius * Math.cos(clock.getElapsedTime() / dotSpeed + id);
+        dotMesh.position.z = randomMoveRadius * Math.sin(clock.getElapsedTime() / dotSpeed + id * 1.1);
         break;
       case 3:
-        dotMesh.position.y = 600 * Math.cos(clock.getElapsedTime() / 10 + id);
-        dotMesh.position.z = 600 * Math.sin(clock.getElapsedTime() / 10 + id * 1.1);
+        dotMesh.position.y = randomMoveRadius * Math.cos(clock.getElapsedTime() / dotSpeed + id);
+        dotMesh.position.z = randomMoveRadius * Math.sin(clock.getElapsedTime() / dotSpeed + id * 1.1);
         break;
     }
   };
 
-  this.getDotContainer = function () {
+  this.setSpeed = function(speed) {
+    dotSpeed = speed;
+  };
+
+  this.setRandomMoveRadius = function(radius) {
+    randomMoveRadius = radius;
+  };
+
+  this.getDotContainer = function() {
     return dotContainer;
   };
 }

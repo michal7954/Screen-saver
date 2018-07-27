@@ -7,6 +7,7 @@ function UI() {
     window.opener.jQuery("#controlPanelDiv").css({
       'display': 'flex'
     });
+    //onclose : later restore form localStorage
   });
 
   //##############Title################//
@@ -61,8 +62,7 @@ function UI() {
     "type": "radio",
     "name": "cameraRotationType",
     'id': 'inputRadio_cameraRotationType_1',
-    'value': 'type_1',
-    'text': 'f'
+    'value': 'type_1'
   });
   $(labCameraRotationType_1).append(inputRadio_cameraRotationType_1);
 
@@ -185,6 +185,50 @@ function UI() {
 
   function setSettingsToRandomMove() {
     $("#settingsDiv").empty();
+
+    //dotsSpeed
+    var labDotsSpeed = $('<label>').text("Dots speed : ");
+    var inputRange_dotsSpeed = $('<input>');
+    $(inputRange_dotsSpeed).attr({
+      'id': 'inputRange_dotsSpeed',
+      "type": "range",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "value": 10
+    });
+
+    var pValue_3 = $('<p>');
+    $(pValue_3).text("10");
+    $(labDotsSpeed).append(inputRange_dotsSpeed, pValue_3);
+    $("#settingsDiv").append(labDotsSpeed);
+
+    $("#inputRange_dotsSpeed").on("input", function() {
+      $(pValue_3).text(parseFloat($(this).val()));
+      screensaver.setDotsSpeed(20 - parseFloat($(this).val()) + 1);
+    });
+
+    //maxDotsRadius
+    var labMaxDotsRadius = $('<label>').text("Max dots radius : ");
+    var inputRange_maxDotsRadius = $('<input>');
+    $(inputRange_maxDotsRadius).attr({
+      'id': 'inputRange_maxDotsRadius',
+      "type": "range",
+      "min": 100,
+      "max": 800,
+      "step": 10,
+      "value": 600
+    });
+
+    var pValue_4 = $('<p>');
+    $(pValue_4).text("600");
+    $(labMaxDotsRadius).append(inputRange_maxDotsRadius, pValue_4);
+    $("#settingsDiv").append(labMaxDotsRadius);
+
+    $("#inputRange_maxDotsRadius").on("input", function() {
+      $(pValue_4).text(parseFloat($(this).val()));
+      screensaver.setMaxDotsRadius(parseFloat($(this).val()));
+    });
   }
 
   function setSettingsToElypticalMove() {
@@ -261,6 +305,36 @@ function UI() {
 
   function setSettingsToFreeFallMove() {
     $("#settingsDiv").empty();
+
+    //freeFallMoveType
+    var labFreeFallMoveType = $('<label>').text("Fall type : ").attr('id', 'labFreeFallMoveType');
+    var inputRadio_freeFallMoveType_bouncing = $('<input>'),
+      inputRadio_freeFallMoveType_rainDrop = $('<input>');
+
+    var labFreeFallMoveType_bouncing = $('<label>').text("Bouncing");
+    $(inputRadio_freeFallMoveType_bouncing).attr({
+      "type": "radio",
+      "name": "freeFallMoveType",
+      'id': 'inputRadio_freeFallMoveType_bouncing',
+      'value': 'bouncing',
+    });
+    $(labFreeFallMoveType_bouncing).append(inputRadio_freeFallMoveType_bouncing);
+
+    var labFreeFallMoveType_rainDrop = $('<label>').text("Rain drop");
+    $(inputRadio_freeFallMoveType_rainDrop).attr({
+      "type": "radio",
+      "name": "freeFallMoveType",
+      'id': 'inputRadio_freeFallMoveType_rainDrop',
+      'value': 'rainDrop'
+    });
+    $(labFreeFallMoveType_rainDrop).append(inputRadio_freeFallMoveType_rainDrop);
+
+    $(labFreeFallMoveType).append(labFreeFallMoveType_bouncing, labFreeFallMoveType_rainDrop);
+    $("#settingsDiv").append(labFreeFallMoveType);
+
+    $("#labFreeFallMoveType input").on("input", function() {
+      screensaver.setFreeFallMoveType($(this).val());
+    });
   }
 
 }
