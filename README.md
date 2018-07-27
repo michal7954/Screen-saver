@@ -1,7 +1,10 @@
 # Screen-saver for ILab multi-projector wall
 - Trójwymiarowa animacja wykonana w oparciu o bibliotekę Three.js pozwalająca na szeroką konfigurację efektów wizualnych, elementów i ich ruchu po scenie.
+
 - Aplikacja jest prekonfigurowana do uruchamiania jej w sali ILab ul. Przemysłowa 13 Kraków. Strona internetowa wyświetla się w trybie full-screen na czterech rzutnikach zainstalowanych w sali. Do wyświetlania animacji program nie wykorzystuje ekranu monitora głównego.
+
 - Wraz ze startem aplikacji uruchamia się drugie okno przeglądarki służące do zarządzania animacją - pojawia się ono na monitorze głównym, jest dostępne zmienianie jego pozycji.
+
 
 Instalacja aplikacji na komputerze w sali ILab:
 
@@ -14,8 +17,22 @@ Instalacja aplikacji na komputerze w sali ILab:
 Zastrzeżenia dotyczące funkcjonowania aplikacji:
 
 - Działanie skryptów jest optymalizowane pod aktualną wersję przeglądarki Mozilla Firefox
+
 - Jeżeli plik start.bat korzysta z plików lokalnych to aplikacja jest w stanie funkcjonować bez aktywnego połączenia z internetem.
+
 - Okno przeglądarki, w którym wyświetla się animacja nie może pełnić żadnych innych funkcji, służy jako tło/wygaszacz ekranu dla innych okien/aplikacji. Aby móc swobodnie korzystać z przeglądarki Firefox podczas działania skryptu należy uruchomić jej nowe okno.
+
 - Aplikacja korzysta z local storage przeglądarki. Podczas zamykania okien aplikacji konfiguracja panelu kontrolnego trafia do pamięci przeglądarki. Aplikacja automatycznie przywraca ustawienia z poprzedniej sesji podczasu otwierania okna.
 
 Funkcjonalności panelu konfiguracyjnego:
+
+1. Wybór jednego z dwóch typów obrotu kamery wokół sceny
+2. Regulacja prędkości obrotu kamery wokół sceny
+3. Regulacja odległości kamery od centrum sceny
+4. Włączenie/wyłączenie efektu lustra
+5. Dodanie/usunięcie dodatkowego światła globalnego - hemisphere
+6. Wybór koloru tła sceny
+7. Aplikacja posiada trzy główne typy ruchu obiektów wokół logo. W ramach poszczególnych typów pojawiają się stosowne kontrolki umożliwiające sterowanie parametrami animacji:
+    - Random move
+    - Eliptical move: wybór osi, w których poruszają się obiekty oraz zmiana kierunku obrotu wszystkich elementów wokół logo, 
+    - Free fall move: 
