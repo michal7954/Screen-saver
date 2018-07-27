@@ -24,7 +24,7 @@ function UI() {
 
   $(window).on("beforeunload", function () {
     saveLocalStorageData();
-    window.opener.jQuery("#controlPanelDiv").css({
+    window.opener.$("#controlPanelDiv").css({
       'display': 'flex'
     });
   });
@@ -73,7 +73,7 @@ function UI() {
     }
   };
 
-  //##############Settings################//
+  //##############Settings div for specific type of animation################//
   var settingsDiv = $('<div>');
   $(settingsDiv).attr('id', 'settingsDiv');
   $("#control").append(settingsDiv);
@@ -215,16 +215,42 @@ function UI() {
     data.backgroundColor = 'white'
   });
 
-
   //##########Update settings from storage##############///
-  // $("option").each(function (index) {
-  //   if (this.innerText == data.currentAnimation) {
-  //     $(this).attr('selected', 'selected')
-  //   }
-  // });
 
   $("#switchAnimationSelect").val(data.currentAnimation);
   switchAnimationSelectOnChange();
+
+  $("#labCameraRotationType input[value='" + data.cameraRotationType + "']").attr('checked', 'checked');
+  screensaver.setCameraRotationType(data.cameraRotationType);
+
+  $('#inputRange_logotypeRotationAngle').val(data.cameraRotationSpeed)
+  $(pValue_1).text(data.cameraRotationSpeed);
+  screensaver.setLogotypeRotationAngle(data.cameraRotationSpeed);
+
+  $('#inputRange_cameraPositionScalar').val(data.cameraDistance)
+  $(pValue_2).text(data.cameraDistance);
+  screensaver.setCameraScalar(data.cameraDistance);
+
+  if (data.mirror) {
+    $('#inputCheckbox_mirror').prop('checked', true) // jeszcze nie testowałem tej metody ale jest ona w dokumentacji
+    screensaver.setMirror();
+  }
+
+  if (data.hemisphereLight) {
+    $('#inputCheckbox_hLight').prop('checked', true)
+    screensaver.setHemisphereLight();
+  }
+
+  if (data.backgroundColor == 'black') {
+    $('#blackDiv').css('border', '2px solid white');
+    $("#whiteDiv").css('border', '2px solid gray');
+    screensaver.setBackgroundColor("black");
+  }
+  else if (data.backgroundColor == 'white') {
+    $('#whiteDiv').css('border', '2px solid black');
+    $("#blackDiv").css('border', '2px solid gray');
+    screensaver.setBackgroundColor("white");
+  }
 
   //##########To animations############/
 
@@ -261,6 +287,10 @@ function UI() {
         })
         .addClass('axisCheckbox');
 
+      if (data.rotationAxis.includes(rotationAxisArray[i])) {
+        $(axisCheckbox).attr('checked', 'checked')
+      }
+
       axisLabel.append(axisCheckbox);
       axisFieldset.append(axisLabel);
     }
@@ -268,7 +298,7 @@ function UI() {
     $("#settingsDiv").append(axisFieldset);
 
     //rotation direction
-    var rotationDirectionArray = [-1, 'Both', 1];
+    var rotationDirectionArray = [-1, 0, 1];
 
     var rotationDirectionFieldset = $('<fieldset>')
       .attr('id', 'rotationDirectionFieldset');
@@ -279,7 +309,12 @@ function UI() {
 
     for (let i = 0; i < rotationDirectionArray.length; i++) {
       var dirLabel = $('<label>')
-        .text(rotationDirectionArray[i]);
+      if (i == 1) {
+        $(dirLabel).text('Both');
+      }
+      else {
+        $(dirLabel).text(rotationDirectionArray[i]);
+      }
 
       var dirRadio = $('<input>')
         .val(rotationDirectionArray[i])
@@ -288,10 +323,15 @@ function UI() {
           'type': 'radio'
         });
 
+      if (data.direction == rotationDirectionArray[i]) {
+        $(dirRadio).attr('checked', 'checked')
+      }
+
       dirLabel.append(dirRadio);
       rotationDirectionFieldset.append(dirLabel);
     }
     $("#settingsDiv").append(rotationDirectionFieldset);
+    screensaver.setToElypticalMove(data.rotationAxis, data.direction);
 
     //refresh button
     var buttonRefreshDots = $('<button>')
@@ -299,14 +339,11 @@ function UI() {
       .text('Refresh')
       .on('click', function () {
         var rotationAxisArray = [];
-
         $.each($('.axisCheckbox:checked'), function (key, value) {
           rotationAxisArray.push($(value).val());
         });
         var dir = $("input[name='dir']:checked").val();
-
         screensaver.setToElypticalMove(rotationAxisArray, dir);
-
         data.rotationAxis = rotationAxisArray
         data.direction = dir
       });
@@ -316,11 +353,4 @@ function UI() {
   function setSettingsToFreeFallMove() {
     $("#settingsDiv").empty();
   }
-
-  function saveSettings() {
-
-
-    localStorage.setItem("settings", data);
-  }
-
 }
