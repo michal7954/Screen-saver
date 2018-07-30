@@ -1,4 +1,4 @@
-# Screen-saver for ILab multi-projector wall
+﻿# Screen-saver for ILab multi-projector wall
 - Trójwymiarowa animacja wykonana w oparciu o bibliotekę Three.js pozwalająca na szeroką konfigurację efektów wizualnych, elementów i ich ruchu po scenie.
 
 - Aplikacja jest prekonfigurowana do uruchamiania jej w sali ILab ul. Przemysłowa 13 Kraków. Strona internetowa wyświetla się w trybie full-screen na czterech rzutnikach zainstalowanych w sali. Do wyświetlania animacji program nie wykorzystuje ekranu monitora głównego.
@@ -9,7 +9,7 @@
 Instalacja aplikacji na komputerze w sali ILab:
 
 1. Pobierz i rozpakuj zawartość repozytorium
-2. Modyfikuj plik start.bat - w linijce XX przy fladze -url dodaj lokalizację pliku index.html z repozytorium lub adres domeny, na której znajdują się pliki repozytorium.
+2. Modyfikuj plik start.bat - w linijce 7 przy fladze -url dodaj lokalizację pliku index.html z repozytorium lub adres domeny, na której znajdują się pliki repozytorium.
 3. W folderze audio umieszczaj ścieżki dźwiękowe, które będą automatycznie odtwarzane podczas działania aplikacji. Zaktualizuj sieżkę do pliku audio w pliku controlPanel.html
 4. Uruchom wszystkie cztery rzutniki w sali.
 5. Aplikację uruchamiaj poprzez plik start.bat

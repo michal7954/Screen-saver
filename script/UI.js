@@ -65,8 +65,6 @@ function UI() {
         data.currentAnimation = 'Random move';
         break;
       case "Elyptical move":
-        console.log("deas");
-
         setSettingsToElypticalMove();
         screensaver.setToElypticalMove();
         data.currentAnimation = 'Elyptical move';
@@ -404,6 +402,7 @@ function UI() {
         screensaver.setToElypticalMove(rotationAxisArray, dir);
         data.rotationAxis = rotationAxisArray;
         data.direction = dir;
+        console.log(dir)
       });
     $("#settingsDiv").append(buttonRefreshDots);
   }

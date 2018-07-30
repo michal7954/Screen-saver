@@ -48,7 +48,7 @@ function Dot(id, material) {
 
     if (dir == 1 || dir == -1) {
       direction = dir;
-    } else {
+    } else if (dir == 0) {
       var directionBool = Math.floor(Math.random() * 2);
       if (directionBool)
         direction = 1;
