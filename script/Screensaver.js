@@ -104,7 +104,7 @@ function Screensaver() {
   //################Variables###################//
 
   //engine
-  var scene, camera, renderer, orbitControl, stats;
+  var scene, camera, renderer, stats;
 
   //materials
   var iLabMaterial, plusMaterial;
@@ -158,19 +158,13 @@ function Screensaver() {
     renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     $("#root").append(renderer.domElement);
 
-    $(window).on("resize", function() {
+    $(window).on("resize", function () {
       var width = $("#root")[0].clientWidth;
       var height = $("#root")[0].clientHeight;
       renderer.setSize(width, height);
       camera.aspect = width / height;
       camera.updateProjectionMatrix();
     });
-
-    //orbitControl
-    // orbitControl = new THREE.OrbitControls(camera, renderer.domElement);
-    // orbitControl.addEventListener('change', function() {
-    //   renderer.render(scene, camera);
-    // });
 
     //stats
     stats = new Stats();

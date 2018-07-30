@@ -96,7 +96,7 @@ function Dot(id, material) {
     dotMesh.position.set(freeFallMovPosX, freeFallMovPosY, freeFallMovPosZ);
   };
 
-  this.setPositionToElypticalMove = function() {
+  this.setPositionToElypticalMove = function () {
     switch (axis) {
       case 'x':
         dotMesh.rotateX(direction * angle);
@@ -134,7 +134,7 @@ function Dot(id, material) {
     }
   };
 
-  this.setPositionToFreeFall = function(timer) { //set pos y to > 0
+  this.setPositionToFreeFall = function (timer) { //set pos y to > 0
     if (freeFallMoveType === "bouncing") {
 
       dotMesh.position.set(
@@ -158,11 +158,11 @@ function Dot(id, material) {
     }
   };
 
-  this.setFreeFallMoveType = function(moveType) {
+  this.setFreeFallMoveType = function (moveType) {
     freeFallMoveType = moveType;
   };
 
-  this.setPositionToRandomMove = function() {
+  this.setPositionToRandomMove = function () {
     switch (trajectory) {
       case 1:
         dotMesh.position.x = randomMoveRadius * Math.cos(clock.getElapsedTime() / dotSpeed + id);
@@ -179,15 +179,15 @@ function Dot(id, material) {
     }
   };
 
-  this.setSpeed = function(speed) {
+  this.setSpeed = function (speed) {
     dotSpeed = speed;
   };
 
-  this.setRandomMoveRadius = function(radius) {
+  this.setRandomMoveRadius = function (radius) {
     randomMoveRadius = radius;
   };
 
-  this.getDotContainer = function() {
+  this.getDotContainer = function () {
     return dotContainer;
   };
 }
