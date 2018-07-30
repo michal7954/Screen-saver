@@ -3,15 +3,18 @@ function UI() {
   var screensaver = window.opener.screensaver; //DO NOT DELETE AT ANY CASE
 
   var data = {
-    currentAnimation: '---Choose animation---',
+    currentAnimation: '---Choose animation type---',
     cameraRotationType: 'type_1',
     cameraRotationSpeed: 0.005,
     cameraDistance: 1000,
     mirror: false,
     hemisphereLight: false,
     backgroundColor: 'black',
+    dotsSpeed: 10,
+    maxDotsRadius: 600,
     rotationAxis: ['x', 'y', 'z', 'x1', 'y1', 'z1', 'x2', 'y2', 'z2'],
     direction: 0,
+    freeFallMoveType: 'bouncing'
   };
 
   //restoring data from local storage
@@ -278,17 +281,20 @@ function UI() {
       "min": 1,
       "max": 20,
       "step": 1,
-      "value": 10
+      "value": data.dotsSpeed
     });
 
     var pValue_3 = $('<p>');
-    $(pValue_3).text("10");
+    $(pValue_3).text(data.dotsSpeed);
     $(labDotsSpeed).append(inputRange_dotsSpeed, pValue_3);
     $("#settingsDiv").append(labDotsSpeed);
+    screensaver.setDotsSpeed(20 - data.dotsSpeed + 1)
 
     $("#inputRange_dotsSpeed").on("input", function () {
-      $(pValue_3).text(parseFloat($(this).val()));
-      screensaver.setDotsSpeed(20 - parseFloat($(this).val()) + 1);
+      var val = parseFloat($(this).val())
+      data.dotsSpeed = val
+      $(pValue_3).text(val);
+      screensaver.setDotsSpeed(20 - val + 1);
     });
 
     //maxDotsRadius
@@ -300,17 +306,20 @@ function UI() {
       "min": 100,
       "max": 800,
       "step": 10,
-      "value": 600
+      "value": data.maxDotsRadius
     });
 
     var pValue_4 = $('<p>');
-    $(pValue_4).text("600");
+    $(pValue_4).text(data.maxDotsRadius);
     $(labMaxDotsRadius).append(inputRange_maxDotsRadius, pValue_4);
     $("#settingsDiv").append(labMaxDotsRadius);
+    screensaver.setMaxDotsRadius(data.maxDotsRadius);
 
     $("#inputRange_maxDotsRadius").on("input", function () {
-      $(pValue_4).text(parseFloat($(this).val()));
-      screensaver.setMaxDotsRadius(parseFloat($(this).val()));
+      var val = parseFloat($(this).val());
+      data.maxDotsRadius = val
+      $(pValue_4).text(val);
+      screensaver.setMaxDotsRadius(val);
     });
   }
 
@@ -422,13 +431,18 @@ function UI() {
       'id': 'inputRadio_freeFallMoveType_rainDrop',
       'value': 'rainDrop'
     });
-    $(labFreeFallMoveType_rainDrop).append(inputRadio_freeFallMoveType_rainDrop);
 
+    $(labFreeFallMoveType_rainDrop).append(inputRadio_freeFallMoveType_rainDrop);
     $(labFreeFallMoveType).append(labFreeFallMoveType_bouncing, labFreeFallMoveType_rainDrop);
     $("#settingsDiv").append(labFreeFallMoveType);
 
+    $("#labFreeFallMoveType input[value='" + data.freeFallMoveType + "']").attr('checked', 'checked');
+    screensaver.setFreeFallMoveType(data.freeFallMoveType);
+
     $("#labFreeFallMoveType input").on("input", function () {
-      screensaver.setFreeFallMoveType($(this).val());
+      var val = $(this).val()
+      data.freeFallMoveType = val
+      screensaver.setFreeFallMoveType(val);
     });
   }
 }
