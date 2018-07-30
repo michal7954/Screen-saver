@@ -37,6 +37,10 @@ function Screensaver() {
     }
   };
 
+  this.isMirrorSet = () => {
+    return groundMirror ? true : false;
+  };
+
   this.setHemisphereLight = () => {
     if (!hemisphereLight) {
       hemisphereLight = new THREE.HemisphereLight(0xffffbb, 0x080820, 1);
@@ -45,6 +49,10 @@ function Screensaver() {
       scene.remove(hemisphereLight);
       hemisphereLight = false;
     }
+  };
+
+  this.isHemisphereLightSet = () => {
+    return hemisphereLight ? true : false;
   };
 
   this.setBackgroundColor = (color) => {
