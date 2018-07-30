@@ -209,25 +209,15 @@ function UI() {
   $(labBackgroundColor).append(blackDiv, whiteDiv);
   $("#control").append(labBackgroundColor);
 
-<<<<<<< HEAD
-  $("#blackDiv").on('click', function() {
-    $(this).css('border', '2px solid #f58220');
-=======
   $("#blackDiv").on('click', function () {
-    $(this).css('border', '2px solid white');
->>>>>>> localStorage
+    $(this).css('border', '2px solid #f58220');
     $("#whiteDiv").css('border', '2px solid gray');
     screensaver.setBackgroundColor("black");
     data.backgroundColor = 'black';
   });
 
-<<<<<<< HEAD
-  $("#whiteDiv").on('click', function() {
-    $(this).css('border', '2px solid #f58220');
-=======
   $("#whiteDiv").on('click', function () {
-    $(this).css('border', '2px solid black');
->>>>>>> localStorage
+    $(this).css('border', '2px solid #f58220');
     $("#blackDiv").css('border', '2px solid gray');
     screensaver.setBackgroundColor("white");
     data.backgroundColor = 'white';
