@@ -5,11 +5,11 @@ function UI() {
 
   var data = {
     currentAnimation: '---Choose animation type---',
-    cameraRotationType: 'type_1',
+    cameraRotationType: 'type_2',
     cameraRotationSpeed: 0.005,
     cameraDistance: 1000,
     mirror: false,
-    hemisphereLight: false,
+    hemisphereLight: true,
     backgroundColor: 'black',
     dotsSpeed: 10,
     maxDotsRadius: 600,
